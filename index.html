@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#2196F3">
+    <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
     <title>Mi App - Proveedores</title>
     
@@ -66,6 +66,7 @@
             margin-bottom: 12px;
         }
 
+        /* Título en AZUL */
         h1 {
             color: #2196F3;
             font-size: 26px;
@@ -78,14 +79,14 @@
             background: none;
             border: none;
             font-size: 24px;
-            color: #2196F3;
+            color: #000000;
             cursor: pointer;
             padding: 8px;
             display: none;
         }
 
         .btn-back:hover {
-            color: #1976D2;
+            color: #333;
         }
 
         .btn-back.visible {
@@ -140,6 +141,7 @@
             white-space: nowrap;
         }
 
+        /* Botón Guardar - AZUL */
         .btn-primary {
             background: #2196F3;
             color: white;
@@ -178,6 +180,7 @@
             background: #F57C00;
         }
 
+        /* Botón Backup - CELESTE */
         .btn-info {
             background: #00BCD4;
             color: white;
@@ -187,13 +190,14 @@
             background: #0097A7;
         }
 
+        /* Botón Recuperar - AMARILLO */
         .btn-secondary {
-            background: #9E9E9E;
-            color: white;
+            background: #FFC107;
+            color: #333;
         }
 
         .btn-secondary:hover {
-            background: #757575;
+            background: #FFB300;
         }
 
         .btn-sm {
@@ -314,6 +318,7 @@
             flex: 1;
             overflow-y: auto;
             padding-right: 4px;
+            padding-bottom: 8px;
             min-height: 0;
         }
 
@@ -334,6 +339,7 @@
         /* ===== LISTA ===== */
         .items-list {
             margin-top: 0;
+            padding-bottom: 4px;
         }
 
         /* ===== ARTÍCULOS ===== */
@@ -383,6 +389,7 @@
             cursor: grabbing;
         }
 
+        /* Checkbox - AZUL */
         .item .checkbox {
             width: 20px;
             height: 20px;
@@ -624,6 +631,10 @@
             .backup-botones .btn i {
                 font-size: 11px;
             }
+
+            .lista-scroll {
+                padding-bottom: 4px;
+            }
         }
 
         @media (max-width: 380px) {
@@ -736,6 +747,33 @@
             }
             .mensaje-vacio {
                 color: #777;
+            }
+            .btn-primary {
+                background: #64B5F6;
+                color: #000;
+            }
+            .btn-primary:hover {
+                background: #42A5F5;
+            }
+            .btn-info {
+                background: #00BCD4;
+                color: #000;
+            }
+            .btn-info:hover {
+                background: #0097A7;
+            }
+            .btn-secondary {
+                background: #FFC107;
+                color: #000;
+            }
+            .btn-secondary:hover {
+                background: #FFB300;
+            }
+            .btn-back {
+                color: #ffffff;
+            }
+            .btn-back:hover {
+                color: #ddd;
             }
         }
     </style>
@@ -1060,26 +1098,32 @@
 
             // ===== CONFIGURAR BOTÓN ATRÁS =====
             setupBackButton() {
-                // Escuchar el evento popstate (cuando se presiona atrás)
                 window.addEventListener('popstate', (e) => {
-                    // Si estamos en vista de artículos, volver a proveedores
                     if (this.vista === 'articulos') {
                         e.preventDefault();
                         this.mostrarVistaProveedores();
-                        // Añadir un estado al historial para que el botón atrás siga funcionando
                         history.pushState({ vista: 'proveedores' }, '');
                     }
                 });
 
-                // Añadir estado inicial al historial
                 history.pushState({ vista: 'proveedores' }, '');
             }
 
-            // ===== SOBREESCRIBIR mostrarVistaArticulos para manejar el historial =====
-            mostrarVistaArticulosOriginal(proveedor) {
+            // ===== LIMPIAR CAMPOS =====
+            limpiarCampos() {
+                this.inputNombre.value = '';
+                this.inputNombreArticulo.value = '';
+                this.inputCant.value = '';
+                this.editingId = null;
+                this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
+            }
+
+            // ===== VISTAS =====
+            mostrarVistaArticulos(proveedor) {
                 this.vista = 'articulos';
                 this.proveedorActual = proveedor;
-                this.titulo.innerHTML = `<i class="fas fa-box"></i> ${proveedor.nombre}`;
+                this.titulo.innerHTML = `<i class="fas fa-box"></i> <span style="color:#2196F3;">${proveedor.nombre}</span>`;
                 this.btnBack.classList.add('visible');
                 this.formulario.classList.add('hidden');
                 this.formularioArticulos.classList.remove('hidden');
@@ -1087,6 +1131,10 @@
                 this.backupBotones.classList.add('hidden');
                 this.controlTamano.classList.add('hidden');
                 this.inputNombreArticulo.placeholder = 'Nombre del artículo';
+                
+                // Limpiar campos al entrar
+                this.limpiarCampos();
+                
                 this.cargarArticulos(proveedor.id).then(() => {
                     this.renderizarArticulos();
                 });
@@ -1094,14 +1142,12 @@
                 this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
                 this.listaScroll.scrollTop = 0;
 
-                // Añadir estado al historial para el botón atrás
                 history.pushState({ vista: 'articulos', proveedorId: proveedor.id }, '');
             }
 
-            // ===== SOBREESCRIBIR mostrarVistaProveedores para manejar el historial =====
-            mostrarVistaProveedoresOriginal() {
+            mostrarVistaProveedores() {
                 this.vista = 'proveedores';
-                this.titulo.innerHTML = `<i class="fas fa-truck"></i> Proveedores`;
+                this.titulo.innerHTML = `<i class="fas fa-truck"></i> <span style="color:#2196F3;">Proveedores</span>`;
                 this.btnBack.classList.remove('visible');
                 this.formulario.classList.remove('hidden');
                 this.formularioArticulos.classList.add('hidden');
@@ -1109,20 +1155,15 @@
                 this.backupBotones.classList.remove('hidden');
                 this.controlTamano.classList.remove('hidden');
                 this.inputNombre.placeholder = 'Nombre del proveedor';
+                
+                // Limpiar campos al volver
+                this.limpiarCampos();
+                
                 this.renderizarProveedores();
                 this.editingId = null;
                 this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
                 this.listaScroll.scrollTop = 0;
                 setTimeout(() => this.actualizarTamano(), 50);
-            }
-
-            // ===== REDIRECCIONAR MÉTODOS =====
-            mostrarVistaArticulos(proveedor) {
-                this.mostrarVistaArticulosOriginal(proveedor);
-            }
-
-            mostrarVistaProveedores() {
-                this.mostrarVistaProveedoresOriginal();
             }
 
             async init() {
@@ -1177,9 +1218,6 @@
                 this.actualizarTamano();
             }
 
-            // ===== VISTAS (REEMPLAZADAS POR LAS DE ARRIBA) =====
-            // Las vistas ya están definidas arriba con los nombres Original
-
             renderizarProveedores() {
                 if (this.proveedores.length === 0) {
                     this.itemsList.innerHTML = `
@@ -1198,9 +1236,6 @@
                         <div class="proveedor-item" data-id="${prov.id}" data-index="${index}">
                             <div class="nombre">${nombreSeguro}</div>
                             <div class="acciones">
-                                <button class="btn btn-primary btn-sm btn-ver" data-id="${prov.id}">
-                                    <i class="fas fa-eye"></i>
-                                </button>
                                 <button class="btn btn-warning btn-sm btn-editar-proveedor" data-id="${prov.id}">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -1254,15 +1289,6 @@
             }
 
             setupProveedorEvents() {
-                document.querySelectorAll('.btn-ver').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const id = parseInt(e.currentTarget.dataset.id);
-                        const prov = this.proveedores.find(p => p.id === id);
-                        if (prov) this.mostrarVistaArticulos(prov);
-                    });
-                });
-
                 document.querySelectorAll('.btn-editar-proveedor').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
