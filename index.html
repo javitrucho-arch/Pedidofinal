@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#2196F3">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <title>Mi App - Proveedores</title>
     
@@ -246,15 +246,15 @@
             margin-top: 0;
         }
 
-        /* ===== ARTÍCULOS - MÁS COMPACTOS ===== */
+        /* ===== ARTÍCULOS - AGRANDADOS 1/8 ===== */
         .item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
+            gap: 10px;
+            padding: 10px 12px;
             background: #f8f9fa;
-            border-radius: 6px;
-            margin-bottom: 4px;
+            border-radius: 8px;
+            margin-bottom: 6px;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
@@ -285,8 +285,8 @@
         .item .drag-handle {
             cursor: grab;
             color: #999;
-            font-size: 16px;
-            padding: 0 2px;
+            font-size: 18px;
+            padding: 0 4px;
         }
 
         .item .drag-handle:active {
@@ -294,8 +294,8 @@
         }
 
         .item .checkbox {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: #2196F3;
             flex-shrink: 0;
@@ -305,22 +305,22 @@
             flex: 1;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: nowrap;
             min-width: 0;
         }
 
         .item .cant {
             font-weight: 600;
-            font-size: 15px;
-            min-width: 32px;
+            font-size: 17px;
+            min-width: 36px;
             text-align: center;
             flex-shrink: 0;
         }
 
         .item .nombre {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 17px;
             flex: 1;
             word-break: break-word;
             overflow: hidden;
@@ -330,21 +330,21 @@
 
         .item .acciones {
             display: flex;
-            gap: 4px;
+            gap: 6px;
             flex-shrink: 0;
         }
 
         .item .acciones .btn {
-            padding: 2px 8px;
-            font-size: 12px;
+            padding: 3px 10px;
+            font-size: 13px;
         }
 
-        /* ===== PROVEEDORES - MÁS COMPACTOS ===== */
+        /* ===== PROVEEDORES ===== */
         .proveedor-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 14px;
+            padding: 14px 16px;
             background: #f8f9fa;
             border-radius: 8px;
             margin-bottom: 6px;
@@ -462,26 +462,31 @@
             }
 
             .item {
-                padding: 6px 8px;
-                gap: 6px;
+                padding: 8px 10px;
+                gap: 8px;
             }
 
             .item .cant {
-                font-size: 14px;
-                min-width: 28px;
+                font-size: 15px;
+                min-width: 30px;
             }
 
             .item .nombre {
-                font-size: 14px;
+                font-size: 15px;
             }
 
             .item .drag-handle {
-                font-size: 14px;
+                font-size: 16px;
             }
 
             .item .checkbox {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
+            }
+
+            .item .acciones .btn {
+                font-size: 12px;
+                padding: 2px 8px;
             }
 
             .proveedor-item .nombre {
@@ -499,11 +504,6 @@
 
             .backup-botones .btn i {
                 font-size: 11px;
-            }
-
-            .item .acciones .btn {
-                font-size: 11px;
-                padding: 2px 6px;
             }
         }
 
@@ -537,12 +537,12 @@
             }
 
             .item .nombre {
-                font-size: 13px;
+                font-size: 14px;
             }
 
             .item .cant {
-                font-size: 13px;
-                min-width: 24px;
+                font-size: 14px;
+                min-width: 26px;
             }
         }
 
@@ -1247,7 +1247,6 @@
                     return;
                 }
 
-                // Preguntar antes de limpiar
                 if (!confirm(`¿Limpiar la selección de ${seleccionados.length} artículos?`)) {
                     return;
                 }
