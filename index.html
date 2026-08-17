@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2196F3">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Mi App</title>
+    
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 16px;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2196F3;
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input#inputCant {
+            flex: 0.5;
+            min-width: 80px;
+        }
+
+        .form-group input#inputNombre {
+            flex: 2;
+            min-width: 150px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #388E3C;
+        }
+
+        .btn-warning {
+            background: #FF9800;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #F57C00;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .items-list {
+            margin-top: 20px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: grab;
+            transition: all 0.2s;
+            user-select: none;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .item:hover {
+            background: #e3f2fd;
+            border-color: #2196F3;
+        }
+
+        .item:active {
+            cursor: grabbing;
+        }
+
+        .item.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        .item.drag-over {
+            border-color: #2196F3;
+            background: #e3f2fd;
+            transform: scale(1.02);
+        }
+
+        .item .drag-handle {
+            cursor: grab;
+            color: #999;
+            font-size: 18px;
+            padding: 0 4px;
+        }
+
+        .item .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .item .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #2196F3;
+        }
+
+        .item .info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .item .cant {
+            font-weight: 700;
+            color: #2196F3;
+            font-size: 16px;
+            min-width: 40px;
+            background: #e3f2fd;
+            padding: 2px 10px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .item .nombre {
+            font-weight: 600;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .item .acciones {
+            display: flex;
+            gap: 6px;
+        }
+
+        .item .acciones .btn {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+            display: none;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            
+            .form-group input {
+                font-size: 14px;
+            }
+            
+            .form-group input#inputCant {
+                min-width: 60px;
+                flex: 0.3;
+            }
+            
+            .form-group input#inputNombre {
+                min-width: 100px;
+                flex: 1;
+            }
+            
+            .btn {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+            }
+            .container {
+                background: #2d2d2d;
+                color: #e0e0e0;
+            }
+            .item {
+                background: #3d3d3d;
+            }
+            .item:hover {
+                background: #4d4d4d;
+            }
+            .form-group input {
+                background: #3d3d3d;
+                color: white;
+                border-color: #555;
+            }
+            .form-group input:focus {
+                border-color: #2196F3;
+            }
+            h1 {
+                color: #64B5F6;
+            }
+            .item .cant {
+                background: #1a237e;
+                color: #64B5F6;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>
+            <i class="fas fa-database"></i>
+            Mi Base de Datos
+        </h1>
+
+        <div class="form-group">
+            <input type="number" id="inputCant" placeholder="Cant" min="0" />
+            <input type="text" id="inputNombre" placeholder="Nombre del artículo" />
+            <button class="btn btn-primary" id="btnGuardar">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+            <button class="btn btn-success" id="btnEnviarSeleccionados">
+                <i class="fas fa-share-alt"></i> Compartir seleccionados
+            </button>
+            <button class="btn btn-warning" id="btnLimpiarSeleccion">
+                <i class="fas fa-check-double"></i> Limpiar selección
+            </button>
+        </div>
+
+        <div id="itemsList" class="items-list">
+            <p style="color: #999; text-align: center; padding: 40px 0;">
+                <i class="fas fa-inbox" style="font-size: 48px; display: block; margin-bottom: 12px;"></i>
+                No hay artículos aún
+            </p>
+        </div>
+    </div>
+
+    <button class="fab" id="btnAgregarRapido" title="Agregar nuevo">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ========== BASE DE DATOS ==========
+        class Database {
+            constructor() {
+                this.dbName = 'MiAppDB';
+                this.storeName = 'items';
+                this.db = null;
+                this.init();
+            }
+
+            init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, 1);
+                    
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains(this.storeName)) {
+                            const store = db.createObjectStore(this.storeName, { 
+                                keyPath: 'id', 
+                                autoIncrement: true 
+                            });
+                            store.createIndex('nombre', 'nombre', { unique: false });
+                            store.createIndex('orden', 'orden', { unique: false });
+                        }
+                    };
+
+                    request.onsuccess = (e) => {
+                        this.db = e.target.result;
+                        resolve();
+                    };
+
+                    request.onerror = (e) => {
+                        reject(e.target.error);
+                    };
+                });
+            }
+
+            async getAll() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readonly');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.getAll();
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async add(item) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.add(item);
+
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async update(item) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.put(item);
+
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async delete(id) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.delete(id);
+
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+
+            async clear() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    const request = store.clear();
+
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            }
+        }
+
+        // ========== APP PRINCIPAL ==========
+        class App {
+            constructor() {
+                this.db = new Database();
+                this.items = [];
+                this.editingId = null;
+                this.dragItem = null;
+
+                this.itemsList = document.getElementById('itemsList');
+                this.inputNombre = document.getElementById('inputNombre');
+                this.inputCant = document.getElementById('inputCant');
+                this.btnGuardar = document.getElementById('btnGuardar');
+                this.btnEnviar = document.getElementById('btnEnviarSeleccionados');
+                this.btnLimpiar = document.getElementById('btnLimpiarSeleccion');
+                this.btnAgregarRapido = document.getElementById('btnAgregarRapido');
+                this.toast = document.getElementById('toast');
+
+                this.init();
+            }
+
+            async init() {
+                await this.db.init();
+                await this.cargarItems();
+                this.setupEventListeners();
+            }
+
+            async cargarItems() {
+                this.items = await this.db.getAll();
+                this.items.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+                this.renderizar();
+            }
+
+            renderizar() {
+                if (this.items.length === 0) {
+                    this.itemsList.innerHTML = `
+                        <p style="color: #999; text-align: center; padding: 40px 0;">
+                            <i class="fas fa-inbox" style="font-size: 48px; display: block; margin-bottom: 12px;"></i>
+                            No hay artículos aún
+                        </p>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                this.items.forEach((item, index) => {
+                    const nombreSeguro = this.escapeHtml(item.nombre);
+                    
+                    html += `
+                        <div class="item" draggable="true" data-id="${item.id}" data-index="${index}">
+                            <span class="drag-handle"><i class="fas fa-grip-lines"></i></span>
+                            <input type="checkbox" class="checkbox" ${item.sel ? 'checked' : ''} data-id="${item.id}" />
+                            <div class="info">
+                                <span class="cant">${item.cant}</span>
+                                <span class="nombre">${nombreSeguro}</span>
+                            </div>
+                            <div class="acciones">
+                                <button class="btn btn-warning btn-sm btn-editar" data-id="${item.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm btn-eliminar" data-id="${item.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                this.itemsList.innerHTML = html;
+                this.setupItemEvents();
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            setupItemEvents() {
+                document.querySelectorAll('.checkbox').forEach(cb => {
+                    cb.addEventListener('change', (e) => this.toggleSeleccion(
+                        parseInt(e.target.dataset.id), 
+                        e.target.checked
+                    ));
+                });
+
+                document.querySelectorAll('.btn-editar').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.dataset.id);
+                        this.editarItem(id);
+                    });
+                });
+
+                document.querySelectorAll('.btn-eliminar').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(e.currentTarget.dataset.id);
+                        this.eliminarItem(id);
+                    });
+                });
+
+                document.querySelectorAll('.item').forEach(el => {
+                    el.addEventListener('dragstart', (e) => this.onDragStart(e));
+                    el.addEventListener('dragend', (e) => this.onDragEnd(e));
+                    el.addEventListener('dragover', (e) => this.onDragOver(e));
+                    el.addEventListener('dragleave', (e) => this.onDragLeave(e));
+                    el.addEventListener('drop', (e) => this.onDrop(e));
+                });
+            }
+
+            setupEventListeners() {
+                this.btnGuardar.addEventListener('click', () => this.guardarItem());
+                
+                this.inputNombre.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.guardarItem();
+                });
+                this.inputCant.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.guardarItem();
+                });
+
+                this.btnEnviar.addEventListener('click', () => this.enviarSeleccionados());
+                this.btnLimpiar.addEventListener('click', () => this.limpiarSeleccion());
+
+                this.btnAgregarRapido.addEventListener('click', () => {
+                    this.inputCant.focus();
+                    this.inputCant.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+
+            async guardarItem() {
+                const nombre = this.inputNombre.value.trim();
+                const cant = parseInt(this.inputCant.value);
+
+                if (!nombre) {
+                    this.mostrarToast('Por favor ingresa un nombre', 'warning');
+                    return;
+                }
+
+                if (isNaN(cant) || cant < 0) {
+                    this.mostrarToast('Por favor ingresa una cantidad válida', 'warning');
+                    return;
+                }
+
+                if (this.editingId) {
+                    const item = this.items.find(i => i.id === this.editingId);
+                    if (item) {
+                        item.nombre = nombre;
+                        item.cant = cant;
+                        await this.db.update(item);
+                        this.mostrarToast('Artículo modificado ✅');
+                    }
+                    this.editingId = null;
+                    this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                } else {
+                    const maxOrden = this.items.reduce((max, i) => Math.max(max, i.orden || 0), 0);
+                    const newItem = {
+                        nombre: nombre,
+                        cant: cant,
+                        sel: false,
+                        orden: maxOrden + 1
+                    };
+                    const id = await this.db.add(newItem);
+                    newItem.id = id;
+                    this.items.push(newItem);
+                    this.mostrarToast('Artículo agregado ✅');
+                }
+
+                this.inputNombre.value = '';
+                this.inputCant.value = '';
+                await this.cargarItems();
+                this.inputCant.focus();
+            }
+
+            async editarItem(id) {
+                const item = this.items.find(i => i.id === id);
+                if (!item) return;
+
+                this.inputCant.value = item.cant;
+                this.inputNombre.value = item.nombre;
+                this.editingId = id;
+                this.btnGuardar.innerHTML = '<i class="fas fa-pen"></i> Modificar';
+                this.inputCant.focus();
+                this.inputCant.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            async eliminarItem(id) {
+                if (!confirm('¿Eliminar este artículo?')) return;
+
+                await this.db.delete(id);
+                this.items = this.items.filter(i => i.id !== id);
+                await this.cargarItems();
+                this.mostrarToast('Artículo eliminado 🗑️');
+            }
+
+            async toggleSeleccion(id, checked) {
+                const item = this.items.find(i => i.id === id);
+                if (item) {
+                    item.sel = checked;
+                    await this.db.update(item);
+                }
+            }
+
+            async limpiarSeleccion() {
+                const seleccionados = this.items.filter(i => i.sel);
+                if (seleccionados.length === 0) {
+                    this.mostrarToast('No hay artículos seleccionados', 'info');
+                    return;
+                }
+
+                for (const item of seleccionados) {
+                    item.sel = false;
+                    await this.db.update(item);
+                }
+                await this.cargarItems();
+                this.mostrarToast('Selección limpiada ✅');
+            }
+
+            // ===== COMPARTIR DIRECTO (SIN ARCHIVO) =====
+            enviarSeleccionados() {
+                const seleccionados = this.items.filter(i => i.sel);
+                
+                if (seleccionados.length === 0) {
+                    this.mostrarToast('No hay artículos seleccionados', 'warning');
+                    return;
+                }
+
+                // Construir el texto
+                let texto = '';
+                seleccionados.forEach((item) => {
+                    texto += `${item.cant} ${item.nombre}\n`;
+                });
+
+                // Verificar si el navegador soporta Web Share API
+                if (navigator.share) {
+                    // Compartir directamente
+                    navigator.share({
+                        title: 'Artículos seleccionados',
+                        text: texto
+                    })
+                    .then(() => {
+                        this.mostrarToast('Compartido ✅');
+                    })
+                    .catch((error) => {
+                        if (error.name !== 'AbortError') {
+                            console.error('Error al compartir:', error);
+                            this.mostrarToast('Error al compartir', 'warning');
+                            // Fallback: copiar al portapapeles
+                            this.copiarAlPortapapeles(texto);
+                        }
+                    });
+                } else {
+                    // Si no soporta Web Share, copiar al portapapeles
+                    this.copiarAlPortapapeles(texto);
+                }
+            }
+
+            // ===== COPIAR AL PORTAPAPELES (FALLBACK) =====
+            copiarAlPortapapeles(texto) {
+                navigator.clipboard.writeText(texto)
+                    .then(() => {
+                        this.mostrarToast('📋 Copiado al portapapeles');
+                    })
+                    .catch(() => {
+                        // Fallback para navegadores antiguos
+                        const textarea = document.createElement('textarea');
+                        textarea.value = texto;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        this.mostrarToast('📋 Copiado al portapapeles');
+                    });
+            }
+
+            // ========== DRAG & DROP ==========
+            onDragStart(e) {
+                const item = e.currentTarget;
+                this.dragItem = {
+                    element: item,
+                    id: parseInt(item.dataset.id),
+                    index: parseInt(item.dataset.index)
+                };
+                item.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', item.dataset.id);
+                item.style.opacity = '0.5';
+            }
+
+            onDragEnd(e) {
+                const item = e.currentTarget;
+                item.classList.remove('dragging');
+                item.style.opacity = '1';
+                
+                document.querySelectorAll('.item').forEach(el => {
+                    el.classList.remove('drag-over');
+                    el.style.borderColor = 'transparent';
+                });
+                
+                this.dragItem = null;
+            }
+
+            onDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                
+                const target = e.currentTarget;
+                if (target !== this.dragItem?.element) {
+                    target.classList.add('drag-over');
+                    target.style.borderColor = '#2196F3';
+                }
+            }
+
+            onDragLeave(e) {
+                const target = e.currentTarget;
+                target.classList.remove('drag-over');
+                target.style.borderColor = 'transparent';
+            }
+
+            async onDrop(e) {
+                e.preventDefault();
+                const target = e.currentTarget;
+                target.classList.remove('drag-over');
+                target.style.borderColor = 'transparent';
+
+                if (!this.dragItem) {
+                    this.mostrarToast('Error al mover', 'warning');
+                    return;
+                }
+
+                if (target === this.dragItem.element) {
+                    this.dragItem = null;
+                    return;
+                }
+
+                const fromIndex = this.dragItem.index;
+                const toIndex = parseInt(target.dataset.index);
+
+                if (fromIndex === toIndex) {
+                    this.dragItem = null;
+                    return;
+                }
+
+                try {
+                    const [movedItem] = this.items.splice(fromIndex, 1);
+                    this.items.splice(toIndex, 0, movedItem);
+
+                    this.items.forEach((item, index) => {
+                        item.orden = index;
+                    });
+
+                    for (const item of this.items) {
+                        await this.db.update(item);
+                    }
+
+                    await this.cargarItems();
+                    this.mostrarToast('Orden actualizado 🔄');
+                    
+                } catch (error) {
+                    console.error('Error al mover:', error);
+                    this.mostrarToast('Error al mover el artículo', 'warning');
+                    await this.cargarItems();
+                }
+
+                this.dragItem = null;
+            }
+
+            mostrarToast(mensaje, tipo = 'success') {
+                const toast = this.toast;
+                toast.textContent = mensaje;
+                toast.style.display = 'block';
+                toast.style.background = tipo === 'warning' ? 'rgba(255, 152, 0, 0.9)' : 
+                                       tipo === 'info' ? 'rgba(33, 150, 243, 0.9)' : 
+                                       'rgba(76, 175, 80, 0.9)';
+                
+                clearTimeout(this.toastTimeout);
+                this.toastTimeout = setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // ========== INICIAR ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!window.indexedDB) {
+                document.body.innerHTML = `
+                    <div style="text-align:center;padding:50px;color:#f44336;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:48px;"></i>
+                        <h2>Tu navegador no soporta IndexedDB</h2>
+                        <p>Usa un navegador moderno como Chrome, Firefox o Edge</p>
+                    </div>
+                `;
+                return;
+            }
+
+            new App();
+        });
+    </script>
+
+</body>
+</html>
