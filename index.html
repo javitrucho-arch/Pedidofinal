@@ -20,33 +20,43 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: #f5f5f5;
-            min-height: 100vh;
             padding: 16px;
-            padding-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            width: 100%;
+            height: calc(100vh - 32px);
             background: white;
             border-radius: 16px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         /* ===== HEADER FIJO ===== */
         .header-fijo {
-            position: sticky;
-            top: 0;
+            flex-shrink: 0;
             background: white;
             z-index: 100;
             padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .header {
@@ -220,11 +230,91 @@
             justify-content: center;
         }
 
-        /* ===== CONTENEDOR DE LA LISTA (SCROLL) ===== */
+        /* ===== CONTROL DE TAMAÑO ===== */
+        .control-tamano {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .control-tamano label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .control-tamano input[type="range"] {
+            flex: 1;
+            min-width: 100px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            border-radius: 3px;
+            outline: none;
+            transition: background 0.2s;
+        }
+
+        .control-tamano input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .control-tamano input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .control-tamano input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #2196F3;
+            cursor: pointer;
+            border: none;
+        }
+
+        .control-tamano .tamano-valor {
+            font-weight: 700;
+            font-size: 14px;
+            color: #2196F3;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .btn-tamano {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: 0.2s;
+            color: #666;
+        }
+
+        .btn-tamano:hover {
+            background: #e0e0e0;
+        }
+
+        /* ===== CONTENEDOR DE LA LISTA ===== */
         .lista-scroll {
-            max-height: calc(100vh - 380px);
+            flex: 1;
             overflow-y: auto;
             padding-right: 4px;
+            min-height: 0;
         }
 
         .lista-scroll::-webkit-scrollbar {
@@ -246,7 +336,7 @@
             margin-top: 0;
         }
 
-        /* ===== ARTÍCULOS - AGRANDADOS 1/8 ===== */
+        /* ===== ARTÍCULOS ===== */
         .item {
             display: flex;
             align-items: center;
@@ -316,6 +406,7 @@
             min-width: 36px;
             text-align: center;
             flex-shrink: 0;
+            transition: font-size 0.2s;
         }
 
         .item .nombre {
@@ -326,6 +417,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            transition: font-size 0.2s;
         }
 
         .item .acciones {
@@ -364,6 +456,7 @@
             font-weight: 600;
             font-size: 18px;
             word-break: break-word;
+            transition: font-size 0.2s;
         }
 
         .proveedor-item .cantidad-articulos {
@@ -410,14 +503,32 @@
             display: none !important;
         }
 
+        /* ===== MENSAJE VACÍO ===== */
+        .mensaje-vacio {
+            color: #999;
+            text-align: center;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .mensaje-vacio i {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             body {
                 padding: 8px;
-                padding-bottom: 30px;
             }
 
             .container {
+                height: calc(100vh - 16px);
                 padding: 12px;
             }
 
@@ -457,8 +568,16 @@
                 gap: 6px;
             }
 
-            .lista-scroll {
-                max-height: calc(100vh - 340px);
+            .control-tamano {
+                padding: 6px 10px;
+            }
+
+            .control-tamano label {
+                font-size: 12px;
+            }
+
+            .control-tamano input[type="range"] {
+                min-width: 60px;
             }
 
             .item {
@@ -544,6 +663,15 @@
                 font-size: 14px;
                 min-width: 26px;
             }
+
+            .control-tamano {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .control-tamano input[type="range"] {
+                min-width: 80px;
+            }
         }
 
         /* ===== MODO OSCURO ===== */
@@ -585,6 +713,30 @@
             .lista-scroll::-webkit-scrollbar-thumb {
                 background: #64B5F6;
             }
+            .control-tamano {
+                background: #3d3d3d;
+            }
+            .control-tamano label {
+                color: #aaa;
+            }
+            .control-tamano input[type="range"] {
+                background: #555;
+            }
+            .control-tamano input[type="range"]::-webkit-slider-thumb {
+                background: #64B5F6;
+            }
+            .control-tamano .tamano-valor {
+                color: #64B5F6;
+            }
+            .btn-tamano {
+                color: #aaa;
+            }
+            .btn-tamano:hover {
+                background: #555;
+            }
+            .mensaje-vacio {
+                color: #777;
+            }
         }
     </style>
 </head>
@@ -620,6 +772,22 @@
                 </button>
             </div>
 
+            <!-- ===== CONTROL DE TAMAÑO DE LETRA ===== -->
+            <div class="control-tamano" id="controlTamano">
+                <label>
+                    <i class="fas fa-font"></i>
+                    <span id="tamanoLabel">100%</span>
+                </label>
+                <button class="btn-tamano" id="btnTamanoMenos" title="Reducir tamaño">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <input type="range" id="tamanoSlider" min="70" max="150" value="100" step="5">
+                <button class="btn-tamano" id="btnTamanoMas" title="Aumentar tamaño">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <span class="tamano-valor" id="tamanoValor">100%</span>
+            </div>
+
             <!-- ===== BOTONES DE ACCIÓN ===== -->
             <div class="acciones-botones" id="accionesBotones">
                 <button class="btn btn-success" id="btnCompartir">
@@ -641,13 +809,13 @@
             </div>
         </div>
 
-        <!-- ===== CONTENEDOR DE LA LISTA (CON SCROLL) ===== -->
+        <!-- ===== CONTENEDOR DE LA LISTA ===== -->
         <div class="lista-scroll" id="listaScroll">
             <div id="itemsList" class="items-list">
-                <p style="color: #999; text-align: center; padding: 40px 0;">
-                    <i class="fas fa-inbox" style="font-size: 48px; display: block; margin-bottom: 12px;"></i>
+                <div class="mensaje-vacio">
+                    <i class="fas fa-inbox"></i>
                     No hay elementos aún
-                </p>
+                </div>
             </div>
         </div>
     </div>
@@ -848,7 +1016,9 @@
                 this.editingId = null;
                 this.dragItem = null;
                 this.vista = 'proveedores';
+                this.tamanoLetra = 100;
 
+                // Elementos DOM
                 this.itemsList = document.getElementById('itemsList');
                 this.listaScroll = document.getElementById('listaScroll');
                 this.titulo = document.getElementById('tituloPrincipal');
@@ -867,8 +1037,92 @@
                 this.toast = document.getElementById('toast');
                 this.accionesBotones = document.getElementById('accionesBotones');
                 this.backupBotones = document.getElementById('backupBotones');
+                this.controlTamano = document.getElementById('controlTamano');
+                this.tamanoSlider = document.getElementById('tamanoSlider');
+                this.tamanoValor = document.getElementById('tamanoValor');
+                this.tamanoLabel = document.getElementById('tamanoLabel');
+                this.btnTamanoMenos = document.getElementById('btnTamanoMenos');
+                this.btnTamanoMas = document.getElementById('btnTamanoMas');
+
+                // Cargar tamaño guardado
+                const guardado = localStorage.getItem('tamanoLetra');
+                if (guardado) {
+                    this.tamanoLetra = parseInt(guardado);
+                    this.tamanoSlider.value = this.tamanoLetra;
+                    this.actualizarTamano();
+                }
 
                 this.init();
+
+                // ===== CONTROL DEL BOTÓN ATRÁS DE ANDROID =====
+                this.setupBackButton();
+            }
+
+            // ===== CONFIGURAR BOTÓN ATRÁS =====
+            setupBackButton() {
+                // Escuchar el evento popstate (cuando se presiona atrás)
+                window.addEventListener('popstate', (e) => {
+                    // Si estamos en vista de artículos, volver a proveedores
+                    if (this.vista === 'articulos') {
+                        e.preventDefault();
+                        this.mostrarVistaProveedores();
+                        // Añadir un estado al historial para que el botón atrás siga funcionando
+                        history.pushState({ vista: 'proveedores' }, '');
+                    }
+                });
+
+                // Añadir estado inicial al historial
+                history.pushState({ vista: 'proveedores' }, '');
+            }
+
+            // ===== SOBREESCRIBIR mostrarVistaArticulos para manejar el historial =====
+            mostrarVistaArticulosOriginal(proveedor) {
+                this.vista = 'articulos';
+                this.proveedorActual = proveedor;
+                this.titulo.innerHTML = `<i class="fas fa-box"></i> ${proveedor.nombre}`;
+                this.btnBack.classList.add('visible');
+                this.formulario.classList.add('hidden');
+                this.formularioArticulos.classList.remove('hidden');
+                this.accionesBotones.classList.remove('hidden');
+                this.backupBotones.classList.add('hidden');
+                this.controlTamano.classList.add('hidden');
+                this.inputNombreArticulo.placeholder = 'Nombre del artículo';
+                this.cargarArticulos(proveedor.id).then(() => {
+                    this.renderizarArticulos();
+                });
+                this.editingId = null;
+                this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                this.listaScroll.scrollTop = 0;
+
+                // Añadir estado al historial para el botón atrás
+                history.pushState({ vista: 'articulos', proveedorId: proveedor.id }, '');
+            }
+
+            // ===== SOBREESCRIBIR mostrarVistaProveedores para manejar el historial =====
+            mostrarVistaProveedoresOriginal() {
+                this.vista = 'proveedores';
+                this.titulo.innerHTML = `<i class="fas fa-truck"></i> Proveedores`;
+                this.btnBack.classList.remove('visible');
+                this.formulario.classList.remove('hidden');
+                this.formularioArticulos.classList.add('hidden');
+                this.accionesBotones.classList.add('hidden');
+                this.backupBotones.classList.remove('hidden');
+                this.controlTamano.classList.remove('hidden');
+                this.inputNombre.placeholder = 'Nombre del proveedor';
+                this.renderizarProveedores();
+                this.editingId = null;
+                this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                this.listaScroll.scrollTop = 0;
+                setTimeout(() => this.actualizarTamano(), 50);
+            }
+
+            // ===== REDIRECCIONAR MÉTODOS =====
+            mostrarVistaArticulos(proveedor) {
+                this.mostrarVistaArticulosOriginal(proveedor);
+            }
+
+            mostrarVistaProveedores() {
+                this.mostrarVistaProveedoresOriginal();
             }
 
             async init() {
@@ -888,46 +1142,51 @@
                 this.articulos.sort((a, b) => (a.orden || 0) - (b.orden || 0));
             }
 
-            mostrarVistaProveedores() {
-                this.vista = 'proveedores';
-                this.titulo.innerHTML = `<i class="fas fa-truck"></i> Proveedores`;
-                this.btnBack.classList.remove('visible');
-                this.formulario.classList.remove('hidden');
-                this.formularioArticulos.classList.add('hidden');
-                this.accionesBotones.classList.add('hidden');
-                this.backupBotones.classList.remove('hidden');
-                this.inputNombre.placeholder = 'Nombre del proveedor';
-                this.renderizarProveedores();
-                this.editingId = null;
-                this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
-                this.listaScroll.scrollTop = 0;
+            // ===== CONTROL DE TAMAÑO =====
+            actualizarTamano() {
+                const factor = this.tamanoLetra / 100;
+                const items = document.querySelectorAll('.item .nombre, .item .cant');
+                const proveedores = document.querySelectorAll('.proveedor-item .nombre');
+                
+                const baseArticulo = 17;
+                const nuevoTamanoArticulo = Math.round(baseArticulo * factor);
+                
+                const baseProveedor = 18;
+                const nuevoTamanoProveedor = Math.round(baseProveedor * factor);
+
+                items.forEach(el => {
+                    if (el.classList.contains('nombre')) {
+                        el.style.fontSize = nuevoTamanoArticulo + 'px';
+                    } else if (el.classList.contains('cant')) {
+                        el.style.fontSize = nuevoTamanoArticulo + 'px';
+                    }
+                });
+
+                proveedores.forEach(el => {
+                    el.style.fontSize = nuevoTamanoProveedor + 'px';
+                });
+
+                this.tamanoValor.textContent = this.tamanoLetra + '%';
+                this.tamanoLabel.textContent = this.tamanoLetra + '%';
+                localStorage.setItem('tamanoLetra', this.tamanoLetra);
             }
 
-            mostrarVistaArticulos(proveedor) {
-                this.vista = 'articulos';
-                this.proveedorActual = proveedor;
-                this.titulo.innerHTML = `<i class="fas fa-box"></i> ${proveedor.nombre}`;
-                this.btnBack.classList.add('visible');
-                this.formulario.classList.add('hidden');
-                this.formularioArticulos.classList.remove('hidden');
-                this.accionesBotones.classList.remove('hidden');
-                this.backupBotones.classList.add('hidden');
-                this.inputNombreArticulo.placeholder = 'Nombre del artículo';
-                this.cargarArticulos(proveedor.id).then(() => {
-                    this.renderizarArticulos();
-                });
-                this.editingId = null;
-                this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
-                this.listaScroll.scrollTop = 0;
+            cambiarTamano(valor) {
+                this.tamanoLetra = Math.max(70, Math.min(150, valor));
+                this.tamanoSlider.value = this.tamanoLetra;
+                this.actualizarTamano();
             }
+
+            // ===== VISTAS (REEMPLAZADAS POR LAS DE ARRIBA) =====
+            // Las vistas ya están definidas arriba con los nombres Original
 
             renderizarProveedores() {
                 if (this.proveedores.length === 0) {
                     this.itemsList.innerHTML = `
-                        <p style="color: #999; text-align: center; padding: 40px 0;">
-                            <i class="fas fa-truck" style="font-size: 48px; display: block; margin-bottom: 12px;"></i>
+                        <div class="mensaje-vacio">
+                            <i class="fas fa-truck"></i>
                             No hay proveedores aún
-                        </p>
+                        </div>
                     `;
                     return;
                 }
@@ -955,15 +1214,16 @@
 
                 this.itemsList.innerHTML = html;
                 this.setupProveedorEvents();
+                this.actualizarTamano();
             }
 
             renderizarArticulos() {
                 if (this.articulos.length === 0) {
                     this.itemsList.innerHTML = `
-                        <p style="color: #999; text-align: center; padding: 40px 0;">
-                            <i class="fas fa-box" style="font-size: 48px; display: block; margin-bottom: 12px;"></i>
+                        <div class="mensaje-vacio">
+                            <i class="fas fa-box"></i>
                             No hay artículos para este proveedor
-                        </p>
+                        </div>
                     `;
                     return;
                 }
@@ -990,6 +1250,7 @@
 
                 this.itemsList.innerHTML = html;
                 this.setupArticuloEvents();
+                this.actualizarTamano();
             }
 
             setupProveedorEvents() {
@@ -1467,6 +1728,19 @@
                 this.btnLimpiar.addEventListener('click', () => this.limpiarSeleccion());
                 this.btnBackupGuardar.addEventListener('click', () => this.hacerBackup());
                 this.btnBackupRecuperar.addEventListener('click', () => this.recuperarBackup());
+
+                // Control de tamaño
+                this.tamanoSlider.addEventListener('input', (e) => {
+                    this.cambiarTamano(parseInt(e.target.value));
+                });
+
+                this.btnTamanoMenos.addEventListener('click', () => {
+                    this.cambiarTamano(this.tamanoLetra - 5);
+                });
+
+                this.btnTamanoMas.addEventListener('click', () => {
+                    this.cambiarTamano(this.tamanoLetra + 5);
+                });
             }
         }
 
