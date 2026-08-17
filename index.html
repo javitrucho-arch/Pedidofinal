@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -34,6 +34,9 @@
             justify-content: center;
             height: 100vh;
             overflow: hidden;
+            width: 100%;
+            top: 0;
+            left: 0;
         }
 
         .container {
@@ -47,6 +50,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
         }
 
         /* ===== HEADER FIJO ===== */
@@ -57,6 +61,7 @@
             padding-bottom: 12px;
             border-bottom: 2px solid #f0f0f0;
             margin-bottom: 12px;
+            position: relative;
         }
 
         .header {
@@ -109,6 +114,8 @@
             transition: border-color 0.3s;
             flex: 1;
             min-width: 0;
+            background: white;
+            color: #333;
         }
 
         .form-group input#inputCant {
@@ -320,6 +327,7 @@
             padding-right: 4px;
             padding-bottom: 8px;
             min-height: 0;
+            -webkit-overflow-scrolling: touch;
         }
 
         .lista-scroll::-webkit-scrollbar {
@@ -786,7 +794,7 @@
             <div class="header">
                 <h1 id="tituloPrincipal">
                     <i class="fas fa-truck"></i>
-                    Proveedores
+                    <span style="color:#2196F3;">Proveedores</span>
                 </h1>
                 <button class="btn-back" id="btnBack">
                     <i class="fas fa-arrow-left"></i>
@@ -862,6 +870,110 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // ========== MANEJO DE TECLADO MEJORADO ==========
+        function handleKeyboard() {
+            const container = document.querySelector('.container');
+            const header = document.querySelector('.header-fijo');
+            const lista = document.querySelector('.lista-scroll');
+            
+            // Variable para controlar el estado del teclado
+            let isKeyboardOpen = false;
+
+            // Detectar cambios de tamaño (teclado)
+            window.addEventListener('resize', function() {
+                // Detectar si el teclado está abierto
+                const currentHeight = window.innerHeight;
+                const screenHeight = window.screen.height;
+                
+                // Si la altura actual es menor al 75% de la pantalla, el teclado está abierto
+                const keyboardOpen = currentHeight < screenHeight * 0.75;
+                
+                if (keyboardOpen && !isKeyboardOpen) {
+                    // Teclado se abrió
+                    isKeyboardOpen = true;
+                    
+                    // Ajustar el contenedor
+                    container.style.height = currentHeight - 32 + 'px';
+                    
+                    // Asegurar que el header sea visible
+                    if (header) {
+                        header.style.position = 'relative';
+                    }
+                    
+                    // Asegurar que la lista sea scrollable
+                    if (lista) {
+                        lista.style.flex = '1';
+                        lista.style.minHeight = '100px';
+                    }
+                    
+                    // Scroll al input activo después de un momento
+                    setTimeout(() => {
+                        const activeElement = document.activeElement;
+                        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+                            activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 300);
+                    
+                } else if (!keyboardOpen && isKeyboardOpen) {
+                    // Teclado se cerró
+                    isKeyboardOpen = false;
+                    
+                    // Restaurar todo a la normalidad
+                    container.style.height = '';
+                    container.style.display = 'none';
+                    
+                    if (header) {
+                        header.style.position = '';
+                    }
+                    
+                    if (lista) {
+                        lista.style.flex = '';
+                        lista.style.minHeight = '';
+                    }
+                    
+                    // Forzar reflow para restaurar correctamente
+                    setTimeout(() => {
+                        container.style.display = 'flex';
+                        // Restaurar altura completa
+                        container.style.height = '';
+                    }, 50);
+                }
+            });
+
+            // Cuando un input recibe foco, asegurarse de que sea visible
+            document.addEventListener('focusin', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    setTimeout(() => {
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 200);
+                }
+            });
+
+            // Cuando un input pierde foco, verificar si el teclado se cerró
+            document.addEventListener('focusout', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    // Esperar un momento para ver si el teclado se cerró
+                    setTimeout(() => {
+                        const currentHeight = window.innerHeight;
+                        const screenHeight = window.screen.height;
+                        const keyboardOpen = currentHeight < screenHeight * 0.75;
+                        
+                        if (!keyboardOpen && isKeyboardOpen) {
+                            // El teclado se cerró, restaurar
+                            isKeyboardOpen = false;
+                            container.style.height = '';
+                            container.style.display = 'none';
+                            
+                            setTimeout(() => {
+                                container.style.display = 'flex';
+                                container.style.height = '';
+                            }, 50);
+                        }
+                    }, 300);
+                }
+            });
+        }
+
         // ========== BASE DE DATOS ==========
         class Database {
             constructor() {
@@ -1090,6 +1202,9 @@
                     this.actualizarTamano();
                 }
 
+                // Inicializar manejo de teclado
+                setTimeout(handleKeyboard, 100);
+
                 this.init();
 
                 // ===== CONTROL DEL BOTÓN ATRÁS DE ANDROID =====
@@ -1132,7 +1247,6 @@
                 this.controlTamano.classList.add('hidden');
                 this.inputNombreArticulo.placeholder = 'Nombre del artículo';
                 
-                // Limpiar campos al entrar
                 this.limpiarCampos();
                 
                 this.cargarArticulos(proveedor.id).then(() => {
@@ -1156,7 +1270,6 @@
                 this.controlTamano.classList.remove('hidden');
                 this.inputNombre.placeholder = 'Nombre del proveedor';
                 
-                // Limpiar campos al volver
                 this.limpiarCampos();
                 
                 this.renderizarProveedores();
