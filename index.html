@@ -779,27 +779,22 @@
             }
 
             async importarDatos(data) {
-                // Limpiar datos existentes
                 const proveedores = await this.getProveedores();
                 for (const prov of proveedores) {
                     await this.deleteArticulosByProveedor(prov.id);
                     await this.deleteProveedor(prov.id);
                 }
 
-                // Importar proveedores
                 for (const prov of data.proveedores) {
                     const newProv = {
                         nombre: prov.nombre,
                         orden: prov.orden || 0
                     };
                     const id = await this.addProveedor(newProv);
-                    // Guardar mapeo de IDs viejos a nuevos
                     prov._nuevoId = id;
                 }
 
-                // Importar artículos
                 for (const art of data.articulos) {
-                    // Buscar el nuevo ID del proveedor
                     const provOriginal = data.proveedores.find(p => p.id === art.proveedorId);
                     if (provOriginal && provOriginal._nuevoId) {
                         const newArt = {
@@ -1184,7 +1179,7 @@
                 }
             }
 
-            // ===== COMPARTIR =====
+            // ===== COMPARTIR - SOLO CANTIDAD Y NOMBRE =====
             async compartirSeleccionados() {
                 const seleccionados = this.articulos.filter(a => a.sel);
                 
@@ -1193,15 +1188,15 @@
                     return;
                 }
 
-                let texto = `📋 ${this.proveedorActual.nombre}\n`;
-                texto += '='.repeat(30) + '\n\n';
+                // Solo cantidad y nombre, sin proveedor ni líneas extra
+                let texto = '';
                 seleccionados.forEach((item) => {
                     texto += `${item.cant} ${item.nombre}\n`;
                 });
 
                 if (navigator.share) {
                     navigator.share({
-                        title: `Artículos - ${this.proveedorActual.nombre}`,
+                        title: 'Artículos seleccionados',
                         text: texto
                     })
                     .then(() => {
@@ -1259,7 +1254,6 @@
             }
 
             async recuperarBackup() {
-                // Crear input de archivo
                 const input = document.createElement('input');
                 input.type = 'file';
                 input.accept = '.json';
@@ -1272,7 +1266,6 @@
                         const text = await file.text();
                         const data = JSON.parse(text);
                         
-                        // Validar estructura
                         if (!data.proveedores || !data.articulos) {
                             this.mostrarToast('Archivo de backup inválido', 'warning');
                             return;
@@ -1287,7 +1280,6 @@
                         this.renderizarProveedores();
                         this.mostrarToast('Backup recuperado ✅');
                         
-                        // Si estábamos viendo un proveedor, volver a la lista
                         if (this.vista === 'articulos') {
                             this.mostrarVistaProveedores();
                         }
@@ -1442,8 +1434,6 @@
 
                 this.btnCompartir.addEventListener('click', () => this.compartirSeleccionados());
                 this.btnLimpiar.addEventListener('click', () => this.limpiarSeleccion());
-
-                // BACKUP
                 this.btnBackupGuardar.addEventListener('click', () => this.hacerBackup());
                 this.btnBackupRecuperar.addEventListener('click', () => this.recuperarBackup());
             }
