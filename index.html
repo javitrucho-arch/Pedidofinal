@@ -69,6 +69,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 12px;
+            gap: 8px;
         }
 
         /* Título en AZUL */
@@ -78,6 +79,15 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         .btn-back {
@@ -88,6 +98,7 @@
             cursor: pointer;
             padding: 8px;
             display: none;
+            order: 1;
         }
 
         .btn-back:hover {
@@ -98,7 +109,39 @@
             display: block;
         }
 
-        /* ===== FORMULARIO ===== */
+        /* Botón Compartir en el header */
+        .btn-header-share {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: #4CAF50;
+            color: white;
+            white-space: nowrap;
+            order: 0;
+        }
+
+        .btn-header-share:hover {
+            background: #388E3C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-header-share.visible {
+            display: inline-flex;
+        }
+
+        .btn-header-share i {
+            font-size: 16px;
+        }
+
+        /* ===== FORMULARIO PROVEEDORES ===== */
         .form-group {
             display: flex;
             flex-wrap: wrap;
@@ -118,16 +161,6 @@
             color: #333;
         }
 
-        .form-group input#inputCant {
-            flex: 0.5;
-            min-width: 80px;
-        }
-
-        .form-group input#inputNombre {
-            flex: 2;
-            min-width: 150px;
-        }
-
         .form-group input:focus {
             outline: none;
             border-color: #2196F3;
@@ -138,7 +171,7 @@
             padding: 12px 24px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 22px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -158,6 +191,18 @@
             background: #1976D2;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        /* Botón Agregar - VERDE */
+        .btn-agregar {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-agregar:hover {
+            background: #388E3C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
         }
 
         .btn-danger {
@@ -209,7 +254,7 @@
 
         .btn-sm {
             padding: 4px 10px;
-            font-size: 13px;
+            font-size: 18px;
         }
 
         .btn-block {
@@ -220,13 +265,21 @@
         /* ===== BOTONES DE ACCIÓN ===== */
         .acciones-botones {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 12px;
+            flex-wrap: wrap;
         }
 
         .acciones-botones .btn {
             flex: 1;
             justify-content: center;
+            min-width: 50px;
+            font-size: 20px;
+            padding: 10px 8px;
+        }
+
+        .acciones-botones .btn i {
+            font-size: 20px;
         }
 
         /* ===== BOTONES DE BACKUP ===== */
@@ -350,7 +403,7 @@
             padding-bottom: 4px;
         }
 
-        /* ===== ARTÍCULOS ===== */
+        /* ===== ARTÍCULOS - SIN ICONO DE DRAG ===== */
         .item {
             display: flex;
             align-items: center;
@@ -386,17 +439,6 @@
             transform: scale(1.02);
         }
 
-        .item .drag-handle {
-            cursor: grab;
-            color: #999;
-            font-size: 18px;
-            padding: 0 4px;
-        }
-
-        .item .drag-handle:active {
-            cursor: grabbing;
-        }
-
         /* Checkbox - AZUL */
         .item .checkbox {
             width: 20px;
@@ -411,7 +453,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             min-width: 0;
         }
 
@@ -429,10 +471,8 @@
             font-size: 17px;
             flex: 1;
             word-break: break-word;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
             transition: font-size 0.2s;
+            min-width: 80px;
         }
 
         .item .acciones {
@@ -443,7 +483,7 @@
 
         .item .acciones .btn {
             padding: 3px 10px;
-            font-size: 13px;
+            font-size: 18px;
         }
 
         /* ===== PROVEEDORES ===== */
@@ -488,7 +528,141 @@
 
         .proveedor-item .acciones .btn {
             padding: 4px 10px;
-            font-size: 13px;
+            font-size: 18px;
+        }
+
+        /* ===== MODAL DE EDICIÓN - MODIFICADO ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            /* Centrado más arriba */
+            align-items: flex-start;
+            padding-top: 10vh;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.9) translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal h2 {
+            color: #2196F3;
+            font-size: 28px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal .form-group {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 22px;
+            transition: border-color 0.3s;
+            background: white;
+            color: #333;
+        }
+
+        .modal .form-group input:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+
+        /* Campo cantidad más pequeño en alto y ancho */
+        .modal .form-group input#modalCant {
+            max-width: 120px;
+            text-align: center;
+            padding: 10px 14px;
+            font-size: 22px;
+            min-height: 48px;
+        }
+
+        /* Campo nombre de 3 renglones - ALTO AUMENTADO 1/5 (20%) */
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 26px; /* Tamaño de fuente aumentado */
+            transition: border-color 0.3s;
+            background: white;
+            color: #333;
+            font-family: inherit;
+            resize: none;
+            min-height: 84px; /* Aumentado de 70px a 84px (20% más) */
+            line-height: 1.5;
+        }
+
+        .modal .form-group textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+
+        .modal .form-group label {
+            font-weight: 600;
+            font-size: 20px;
+            color: #666;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 22px;
+            padding: 14px;
+        }
+
+        .btn-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-cancel:hover {
+            background: #d0d0d0;
         }
 
         /* ===== TOAST ===== */
@@ -502,7 +676,7 @@
             padding: 12px 24px;
             border-radius: 8px;
             font-size: 14px;
-            z-index: 1000;
+            z-index: 2000;
             animation: slideUp 0.3s ease;
             display: none;
             max-width: 90%;
@@ -552,7 +726,16 @@
             }
 
             h1 {
-                font-size: 20px;
+                font-size: 18px;
+            }
+
+            .btn-header-share {
+                font-size: 16px;
+                padding: 6px 12px;
+            }
+
+            .btn-header-share i {
+                font-size: 14px;
             }
             
             .form-group input {
@@ -560,23 +743,23 @@
                 padding: 10px;
             }
             
-            .form-group input#inputCant {
-                min-width: 60px;
-                flex: 0.3;
-            }
-            
-            .form-group input#inputNombre {
-                min-width: 100px;
-                flex: 1;
-            }
-            
             .btn {
-                font-size: 13px;
-                padding: 8px 14px;
+                font-size: 18px;
+                padding: 10px 16px;
             }
 
             .acciones-botones {
-                gap: 6px;
+                gap: 4px;
+            }
+
+            .acciones-botones .btn {
+                font-size: 16px;
+                padding: 8px 6px;
+                min-width: 40px;
+            }
+
+            .acciones-botones .btn i {
+                font-size: 16px;
             }
 
             .backup-botones {
@@ -607,10 +790,7 @@
 
             .item .nombre {
                 font-size: 15px;
-            }
-
-            .item .drag-handle {
-                font-size: 16px;
+                min-width: 60px;
             }
 
             .item .checkbox {
@@ -619,7 +799,7 @@
             }
 
             .item .acciones .btn {
-                font-size: 12px;
+                font-size: 16px;
                 padding: 2px 8px;
             }
 
@@ -632,50 +812,74 @@
             }
 
             .backup-botones .btn {
-                font-size: 11px;
-                padding: 6px 8px;
-            }
-
-            .backup-botones .btn i {
-                font-size: 11px;
+                font-size: 16px;
+                padding: 8px 10px;
             }
 
             .lista-scroll {
                 padding-bottom: 4px;
+            }
+
+            .modal {
+                padding: 16px;
+                max-width: 95%;
+            }
+
+            .modal h2 {
+                font-size: 22px;
+            }
+
+            .modal .form-group input {
+                font-size: 18px;
+                padding: 12px;
+            }
+
+            .modal .form-group input#modalCant {
+                max-width: 90px;
+                padding: 8px 12px;
+                font-size: 18px;
+                min-height: 42px;
+            }
+
+            .modal .form-group textarea {
+                font-size: 22px; /* Aumentado en responsive */
+                padding: 12px;
+                min-height: 72px; /* Aumentado de 60px */
+            }
+
+            .modal .form-group label {
+                font-size: 16px;
+            }
+
+            .modal-actions .btn {
+                font-size: 18px;
+                padding: 12px;
             }
         }
 
         @media (max-width: 380px) {
             .acciones-botones {
                 flex-direction: row;
-                gap: 4px;
+                gap: 3px;
             }
 
             .acciones-botones .btn {
-                font-size: 11px;
-                padding: 6px 8px;
+                font-size: 14px;
+                padding: 6px 4px;
             }
 
             .acciones-botones .btn i {
-                font-size: 11px;
+                font-size: 14px;
             }
 
             .backup-botones .btn {
-                font-size: 10px;
-                padding: 5px 6px;
-            }
-
-            .backup-botones .btn i {
-                font-size: 10px;
-            }
-
-            .form-group input#inputCant {
-                min-width: 50px;
-                flex: 0.25;
+                font-size: 14px;
+                padding: 6px 8px;
             }
 
             .item .nombre {
                 font-size: 14px;
+                min-width: 50px;
             }
 
             .item .cant {
@@ -690,6 +894,32 @@
 
             .control-tamano input[type="range"] {
                 min-width: 80px;
+            }
+
+            .modal .form-group input#modalCant {
+                max-width: 80px;
+                padding: 6px 10px;
+                font-size: 16px;
+                min-height: 38px;
+            }
+
+            .modal .form-group textarea {
+                font-size: 20px; /* Aumentado en responsive */
+                padding: 10px;
+                min-height: 66px; /* Aumentado de 55px */
+            }
+
+            .btn-header-share {
+                font-size: 14px;
+                padding: 4px 10px;
+            }
+
+            h1 {
+                font-size: 16px;
+            }
+
+            .modal h2 {
+                font-size: 20px;
             }
         }
 
@@ -763,6 +993,13 @@
             .btn-primary:hover {
                 background: #42A5F5;
             }
+            .btn-agregar {
+                background: #4CAF50;
+                color: #000;
+            }
+            .btn-agregar:hover {
+                background: #388E3C;
+            }
             .btn-info {
                 background: #00BCD4;
                 color: #000;
@@ -783,6 +1020,45 @@
             .btn-back:hover {
                 color: #ddd;
             }
+            .btn-header-share {
+                background: #4CAF50;
+                color: #000;
+            }
+            .btn-header-share:hover {
+                background: #388E3C;
+            }
+            .modal {
+                background: #2d2d2d;
+            }
+            .modal h2 {
+                color: #64B5F6;
+            }
+            .modal .form-group input {
+                background: #3d3d3d;
+                color: white;
+                border-color: #555;
+            }
+            .modal .form-group input:focus {
+                border-color: #64B5F6;
+            }
+            .modal .form-group textarea {
+                background: #3d3d3d;
+                color: white;
+                border-color: #555;
+            }
+            .modal .form-group textarea:focus {
+                border-color: #64B5F6;
+            }
+            .modal .form-group label {
+                color: #aaa;
+            }
+            .btn-cancel {
+                background: #555;
+                color: #ddd;
+            }
+            .btn-cancel:hover {
+                background: #666;
+            }
         }
     </style>
 </head>
@@ -796,9 +1072,14 @@
                     <i class="fas fa-truck"></i>
                     <span style="color:#2196F3;">Proveedores</span>
                 </h1>
-                <button class="btn-back" id="btnBack">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
+                <div class="header-actions">
+                    <button class="btn-header-share" id="btnCompartirHeader">
+                        <i class="fas fa-share-alt"></i> Compartir
+                    </button>
+                    <button class="btn-back" id="btnBack">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- ===== FORMULARIO PROVEEDORES ===== -->
@@ -811,11 +1092,7 @@
 
             <!-- ===== FORMULARIO ARTÍCULOS (oculto por defecto) ===== -->
             <div class="form-group hidden" id="formularioArticulos">
-                <input type="number" id="inputCant" placeholder="Cant" min="0" />
-                <input type="text" id="inputNombreArticulo" placeholder="Nombre del artículo" />
-                <button class="btn btn-primary" id="btnGuardarArticulo">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
+                <!-- Los campos se movieron al modal -->
             </div>
 
             <!-- ===== CONTROL DE TAMAÑO DE LETRA ===== -->
@@ -836,11 +1113,17 @@
 
             <!-- ===== BOTONES DE ACCIÓN ===== -->
             <div class="acciones-botones" id="accionesBotones">
-                <button class="btn btn-success" id="btnCompartir">
-                    <i class="fas fa-share-alt"></i> Compartir
+                <button class="btn btn-info" id="btnSeleccionadosArriba">
+                    <i class="fas fa-arrow-up"></i> Sel 1°
                 </button>
-                <button class="btn btn-warning" id="btnLimpiar">
+                <button class="btn btn-warning" id="btnOrdenarAlfabetico">
+                    <i class="fas fa-sort-alpha-down"></i>
+                </button>
+                <button class="btn btn-danger" id="btnLimpiar">
                     <i class="fas fa-check-double"></i> Limpiar
+                </button>
+                <button class="btn btn-agregar" id="btnAgregarAcciones">
+                    <i class="fas fa-plus"></i> Agregar
                 </button>
             </div>
 
@@ -866,6 +1149,25 @@
         </div>
     </div>
 
+    <!-- ===== MODAL DE EDICIÓN/AGREGADO ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitulo">Agregar Artículo</h2>
+            <div class="form-group">
+                <label>Cantidad (opcional)</label>
+                <input type="number" id="modalCant" placeholder="0" min="0" />
+            </div>
+            <div class="form-group">
+                <label>Nombre</label>
+                <textarea id="modalNombre" placeholder="Ingrese el nombre" rows="3"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-cancel" id="modalCancelar">Cancelar</button>
+                <button class="btn btn-primary" id="modalGuardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== TOAST ===== -->
     <div class="toast" id="toast"></div>
 
@@ -876,71 +1178,43 @@
             const header = document.querySelector('.header-fijo');
             const lista = document.querySelector('.lista-scroll');
             
-            // Variable para controlar el estado del teclado
             let isKeyboardOpen = false;
 
-            // Detectar cambios de tamaño (teclado)
             window.addEventListener('resize', function() {
-                // Detectar si el teclado está abierto
                 const currentHeight = window.innerHeight;
                 const screenHeight = window.screen.height;
-                
-                // Si la altura actual es menor al 75% de la pantalla, el teclado está abierto
                 const keyboardOpen = currentHeight < screenHeight * 0.75;
                 
                 if (keyboardOpen && !isKeyboardOpen) {
-                    // Teclado se abrió
                     isKeyboardOpen = true;
-                    
-                    // Ajustar el contenedor
                     container.style.height = currentHeight - 32 + 'px';
-                    
-                    // Asegurar que el header sea visible
-                    if (header) {
-                        header.style.position = 'relative';
-                    }
-                    
-                    // Asegurar que la lista sea scrollable
+                    if (header) header.style.position = 'relative';
                     if (lista) {
                         lista.style.flex = '1';
                         lista.style.minHeight = '100px';
                     }
-                    
-                    // Scroll al input activo después de un momento
                     setTimeout(() => {
                         const activeElement = document.activeElement;
                         if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
                             activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
                     }, 300);
-                    
                 } else if (!keyboardOpen && isKeyboardOpen) {
-                    // Teclado se cerró
                     isKeyboardOpen = false;
-                    
-                    // Restaurar todo a la normalidad
                     container.style.height = '';
                     container.style.display = 'none';
-                    
-                    if (header) {
-                        header.style.position = '';
-                    }
-                    
+                    if (header) header.style.position = '';
                     if (lista) {
                         lista.style.flex = '';
                         lista.style.minHeight = '';
                     }
-                    
-                    // Forzar reflow para restaurar correctamente
                     setTimeout(() => {
                         container.style.display = 'flex';
-                        // Restaurar altura completa
                         container.style.height = '';
                     }, 50);
                 }
             });
 
-            // Cuando un input recibe foco, asegurarse de que sea visible
             document.addEventListener('focusin', function(e) {
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                     setTimeout(() => {
@@ -949,21 +1223,16 @@
                 }
             });
 
-            // Cuando un input pierde foco, verificar si el teclado se cerró
             document.addEventListener('focusout', function(e) {
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                    // Esperar un momento para ver si el teclado se cerró
                     setTimeout(() => {
                         const currentHeight = window.innerHeight;
                         const screenHeight = window.screen.height;
                         const keyboardOpen = currentHeight < screenHeight * 0.75;
-                        
                         if (!keyboardOpen && isKeyboardOpen) {
-                            // El teclado se cerró, restaurar
                             isKeyboardOpen = false;
                             container.style.height = '';
                             container.style.display = 'none';
-                            
                             setTimeout(() => {
                                 container.style.display = 'flex';
                                 container.style.height = '';
@@ -1004,6 +1273,7 @@
                             });
                             store.createIndex('proveedorId', 'proveedorId', { unique: false });
                             store.createIndex('orden', 'orden', { unique: false });
+                            store.createIndex('nombre', 'nombre', { unique: false });
                         }
                     };
 
@@ -1167,21 +1437,23 @@
                 this.dragItem = null;
                 this.vista = 'proveedores';
                 this.tamanoLetra = 100;
+                this.modalModo = 'agregar'; // 'agregar' o 'editar'
 
                 // Elementos DOM
                 this.itemsList = document.getElementById('itemsList');
                 this.listaScroll = document.getElementById('listaScroll');
                 this.titulo = document.getElementById('tituloPrincipal');
                 this.btnBack = document.getElementById('btnBack');
+                this.btnCompartirHeader = document.getElementById('btnCompartirHeader');
                 this.formulario = document.getElementById('formulario');
                 this.formularioArticulos = document.getElementById('formularioArticulos');
                 this.inputNombre = document.getElementById('inputNombre');
-                this.inputNombreArticulo = document.getElementById('inputNombreArticulo');
-                this.inputCant = document.getElementById('inputCant');
                 this.btnGuardar = document.getElementById('btnGuardar');
-                this.btnGuardarArticulo = document.getElementById('btnGuardarArticulo');
                 this.btnCompartir = document.getElementById('btnCompartir');
+                this.btnSeleccionadosArriba = document.getElementById('btnSeleccionadosArriba');
+                this.btnOrdenarAlfabetico = document.getElementById('btnOrdenarAlfabetico');
                 this.btnLimpiar = document.getElementById('btnLimpiar');
+                this.btnAgregarAcciones = document.getElementById('btnAgregarAcciones');
                 this.btnBackupGuardar = document.getElementById('btnBackupGuardar');
                 this.btnBackupRecuperar = document.getElementById('btnBackupRecuperar');
                 this.toast = document.getElementById('toast');
@@ -1193,6 +1465,14 @@
                 this.tamanoLabel = document.getElementById('tamanoLabel');
                 this.btnTamanoMenos = document.getElementById('btnTamanoMenos');
                 this.btnTamanoMas = document.getElementById('btnTamanoMas');
+
+                // Modal
+                this.modalOverlay = document.getElementById('modalOverlay');
+                this.modalTitulo = document.getElementById('modalTitulo');
+                this.modalCant = document.getElementById('modalCant');
+                this.modalNombre = document.getElementById('modalNombre');
+                this.modalGuardar = document.getElementById('modalGuardar');
+                this.modalCancelar = document.getElementById('modalCancelar');
 
                 // Cargar tamaño guardado
                 const guardado = localStorage.getItem('tamanoLetra');
@@ -1214,6 +1494,13 @@
             // ===== CONFIGURAR BOTÓN ATRÁS =====
             setupBackButton() {
                 window.addEventListener('popstate', (e) => {
+                    // Si el modal está abierto, cerrarlo sin guardar
+                    if (this.modalOverlay.classList.contains('active')) {
+                        e.preventDefault();
+                        this.cerrarModal();
+                        return;
+                    }
+                    
                     if (this.vista === 'articulos') {
                         e.preventDefault();
                         this.mostrarVistaProveedores();
@@ -1227,11 +1514,6 @@
             // ===== LIMPIAR CAMPOS =====
             limpiarCampos() {
                 this.inputNombre.value = '';
-                this.inputNombreArticulo.value = '';
-                this.inputCant.value = '';
-                this.editingId = null;
-                this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
-                this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
             }
 
             // ===== VISTAS =====
@@ -1240,20 +1522,18 @@
                 this.proveedorActual = proveedor;
                 this.titulo.innerHTML = `<i class="fas fa-box"></i> <span style="color:#2196F3;">${proveedor.nombre}</span>`;
                 this.btnBack.classList.add('visible');
+                this.btnCompartirHeader.classList.add('visible');
                 this.formulario.classList.add('hidden');
-                this.formularioArticulos.classList.remove('hidden');
+                this.formularioArticulos.classList.add('hidden');
                 this.accionesBotones.classList.remove('hidden');
                 this.backupBotones.classList.add('hidden');
                 this.controlTamano.classList.add('hidden');
-                this.inputNombreArticulo.placeholder = 'Nombre del artículo';
                 
                 this.limpiarCampos();
                 
                 this.cargarArticulos(proveedor.id).then(() => {
                     this.renderizarArticulos();
                 });
-                this.editingId = null;
-                this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
                 this.listaScroll.scrollTop = 0;
 
                 history.pushState({ vista: 'articulos', proveedorId: proveedor.id }, '');
@@ -1263,6 +1543,7 @@
                 this.vista = 'proveedores';
                 this.titulo.innerHTML = `<i class="fas fa-truck"></i> <span style="color:#2196F3;">Proveedores</span>`;
                 this.btnBack.classList.remove('visible');
+                this.btnCompartirHeader.classList.remove('visible');
                 this.formulario.classList.remove('hidden');
                 this.formularioArticulos.classList.add('hidden');
                 this.accionesBotones.classList.add('hidden');
@@ -1273,8 +1554,6 @@
                 this.limpiarCampos();
                 
                 this.renderizarProveedores();
-                this.editingId = null;
-                this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
                 this.listaScroll.scrollTop = 0;
                 setTimeout(() => this.actualizarTamano(), 50);
             }
@@ -1381,7 +1660,6 @@
                     const nombreSeguro = this.escapeHtml(item.nombre);
                     html += `
                         <div class="item" draggable="true" data-id="${item.id}" data-index="${index}">
-                            <span class="drag-handle"><i class="fas fa-grip-lines"></i></span>
                             <input type="checkbox" class="checkbox" ${item.sel ? 'checked' : ''} data-id="${item.id}" />
                             <div class="info">
                                 <span class="cant">${item.cant}</span>
@@ -1401,6 +1679,7 @@
                 this.actualizarTamano();
             }
 
+            // ===== SETUP EVENTOS =====
             setupProveedorEvents() {
                 document.querySelectorAll('.btn-editar-proveedor').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -1442,7 +1721,7 @@
                     el.addEventListener('click', (e) => {
                         if (e.target.closest('.checkbox') || e.target.closest('.btn')) return;
                         const id = parseInt(el.dataset.id);
-                        this.editarArticulo(id);
+                        this.abrirModalEditar(id);
                     });
                 });
 
@@ -1524,21 +1803,21 @@
             }
 
             // ===== CRUD ARTÍCULOS =====
-            async guardarArticulo() {
-                const nombre = this.inputNombreArticulo.value.trim();
-                const cant = parseInt(this.inputCant.value);
+            async guardarArticuloDesdeModal() {
+                const nombre = this.modalNombre.value.trim();
+                // Permitir cantidad vacía, se guarda como 0
+                let cant = 0;
+                if (this.modalCant.value !== '' && !isNaN(parseInt(this.modalCant.value))) {
+                    cant = parseInt(this.modalCant.value);
+                    if (cant < 0) cant = 0;
+                }
 
                 if (!nombre) {
                     this.mostrarToast('Por favor ingresa un nombre', 'warning');
                     return;
                 }
 
-                if (isNaN(cant) || cant < 0) {
-                    this.mostrarToast('Por favor ingresa una cantidad válida', 'warning');
-                    return;
-                }
-
-                if (this.editingId) {
+                if (this.modalModo === 'editar' && this.editingId) {
                     const item = this.articulos.find(a => a.id === this.editingId);
                     if (item) {
                         item.nombre = nombre;
@@ -1547,7 +1826,6 @@
                         this.mostrarToast('Artículo modificado ✅');
                     }
                     this.editingId = null;
-                    this.btnGuardarArticulo.innerHTML = '<i class="fas fa-save"></i> Guardar';
                 } else {
                     const newItem = {
                         proveedorId: this.proveedorActual.id,
@@ -1566,27 +1844,12 @@
                     for (const item of this.articulos) {
                         await this.db.updateArticulo(item);
                     }
-                    
-                    this.mostrarToast('Artículo agregado al principio ✅');
+                    this.mostrarToast('Artículo agregado ✅');
                 }
 
-                this.inputNombreArticulo.value = '';
-                this.inputCant.value = '';
+                this.cerrarModal();
                 await this.cargarArticulos(this.proveedorActual.id);
                 this.renderizarArticulos();
-                this.inputCant.focus();
-            }
-
-            async editarArticulo(id) {
-                const item = this.articulos.find(a => a.id === id);
-                if (!item) return;
-
-                this.inputCant.value = item.cant;
-                this.inputNombreArticulo.value = item.nombre;
-                this.editingId = id;
-                this.btnGuardarArticulo.innerHTML = '<i class="fas fa-pen"></i> Modificar';
-                this.inputCant.focus();
-                this.inputCant.scrollIntoView({ behavior: 'smooth' });
             }
 
             async eliminarArticulo(id) {
@@ -1605,6 +1868,84 @@
                     item.sel = checked;
                     await this.db.updateArticulo(item);
                 }
+            }
+
+            // ===== MODAL =====
+            abrirModalAgregar() {
+                this.modalModo = 'agregar';
+                this.modalTitulo.textContent = 'Agregar Artículo';
+                this.modalCant.value = '';
+                this.modalNombre.value = '';
+                this.editingId = null;
+                this.modalOverlay.classList.add('active');
+                setTimeout(() => this.modalCant.focus(), 100);
+            }
+
+            abrirModalEditar(id) {
+                const item = this.articulos.find(a => a.id === id);
+                if (!item) return;
+
+                this.modalModo = 'editar';
+                this.modalTitulo.textContent = 'Editar Artículo';
+                this.modalCant.value = item.cant;
+                this.modalNombre.value = item.nombre;
+                this.editingId = id;
+                this.modalOverlay.classList.add('active');
+                setTimeout(() => this.modalCant.focus(), 100);
+            }
+
+            cerrarModal() {
+                this.modalOverlay.classList.remove('active');
+                this.modalCant.value = '';
+                this.modalNombre.value = '';
+                this.editingId = null;
+                // Restaurar el foco al botón que abrió el modal
+                setTimeout(() => {
+                    if (this.vista === 'articulos') {
+                        document.activeElement?.blur();
+                    }
+                }, 100);
+            }
+
+            // ===== ORDENAR SELECCIONADOS ARRIBA =====
+            async ordenarSeleccionadosArriba() {
+                const seleccionados = this.articulos.filter(a => a.sel);
+                if (seleccionados.length === 0) {
+                    this.mostrarToast('No hay artículos seleccionados', 'warning');
+                    return;
+                }
+
+                const noSeleccionados = this.articulos.filter(a => !a.sel);
+                this.articulos = [...seleccionados, ...noSeleccionados];
+                
+                this.articulos.forEach((item, index) => {
+                    item.orden = index;
+                });
+                
+                for (const item of this.articulos) {
+                    await this.db.updateArticulo(item);
+                }
+                
+                await this.cargarArticulos(this.proveedorActual.id);
+                this.renderizarArticulos();
+                this.mostrarToast(`${seleccionados.length} artículos movidos arriba ✅`);
+            }
+
+            // ===== ORDENAR ALFABÉTICAMENTE (TODOS LOS ARTÍCULOS) =====
+            async ordenarAlfabetico() {
+                this.articulos.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                
+                this.articulos.forEach((item, index) => {
+                    item.orden = index;
+                });
+                
+                for (const item of this.articulos) {
+                    await this.db.updateArticulo(item);
+                }
+                
+                await this.cargarArticulos(this.proveedorActual.id);
+                this.renderizarArticulos();
+                this.mostrarToast('Orden alfabético aplicado ✅');
             }
 
             // ===== COMPARTIR =====
@@ -1847,7 +2188,18 @@
             // ===== EVENT LISTENERS =====
             setupEventListeners() {
                 this.btnBack.addEventListener('click', () => {
+                    // Si el modal está abierto, cerrarlo sin guardar
+                    if (this.modalOverlay.classList.contains('active')) {
+                        this.cerrarModal();
+                        return;
+                    }
                     this.mostrarVistaProveedores();
+                });
+
+                this.btnCompartirHeader.addEventListener('click', () => {
+                    if (this.vista === 'articulos') {
+                        this.compartirSeleccionados();
+                    }
                 });
 
                 this.btnGuardar.addEventListener('click', () => this.guardarProveedor());
@@ -1855,16 +2207,10 @@
                     if (e.key === 'Enter') this.guardarProveedor();
                 });
 
-                this.btnGuardarArticulo.addEventListener('click', () => this.guardarArticulo());
-                this.inputNombreArticulo.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.guardarArticulo();
-                });
-                this.inputCant.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.guardarArticulo();
-                });
-
-                this.btnCompartir.addEventListener('click', () => this.compartirSeleccionados());
+                this.btnSeleccionadosArriba.addEventListener('click', () => this.ordenarSeleccionadosArriba());
+                this.btnOrdenarAlfabetico.addEventListener('click', () => this.ordenarAlfabetico());
                 this.btnLimpiar.addEventListener('click', () => this.limpiarSeleccion());
+                this.btnAgregarAcciones.addEventListener('click', () => this.abrirModalAgregar());
                 this.btnBackupGuardar.addEventListener('click', () => this.hacerBackup());
                 this.btnBackupRecuperar.addEventListener('click', () => this.recuperarBackup());
 
@@ -1879,6 +2225,29 @@
 
                 this.btnTamanoMas.addEventListener('click', () => {
                     this.cambiarTamano(this.tamanoLetra + 5);
+                });
+
+                // Modal
+                this.modalGuardar.addEventListener('click', () => this.guardarArticuloDesdeModal());
+                this.modalCancelar.addEventListener('click', () => this.cerrarModal());
+                this.modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === this.modalOverlay) {
+                        this.cerrarModal();
+                    }
+                });
+
+                // Enter en modal
+                this.modalNombre.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.guardarArticuloDesdeModal();
+                    }
+                });
+                this.modalCant.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.modalNombre.focus();
+                    }
                 });
             }
         }
