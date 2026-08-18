@@ -11,7 +11,6 @@
     
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * {
@@ -72,7 +71,11 @@
             gap: 8px;
         }
 
-        /* Título en AZUL */
+        .icono-header {
+            font-size: 28px;
+            line-height: 1;
+        }
+
         h1 {
             color: #2196F3;
             font-size: 26px;
@@ -109,7 +112,6 @@
             display: block;
         }
 
-        /* Botón Compartir en el header */
         .btn-header-share {
             padding: 8px 16px;
             border: none;
@@ -137,8 +139,8 @@
             display: inline-flex;
         }
 
-        .btn-header-share i {
-            font-size: 16px;
+        .btn-header-share .icono {
+            font-size: 18px;
         }
 
         /* ===== FORMULARIO PROVEEDORES ===== */
@@ -181,7 +183,11 @@
             white-space: nowrap;
         }
 
-        /* Botón Guardar - AZUL */
+        .btn .icono {
+            font-size: 20px;
+            line-height: 1;
+        }
+
         .btn-primary {
             background: #2196F3;
             color: white;
@@ -193,7 +199,6 @@
             box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
         }
 
-        /* Botón Agregar - VERDE */
         .btn-agregar {
             background: #4CAF50;
             color: white;
@@ -232,7 +237,6 @@
             background: #F57C00;
         }
 
-        /* Botón Backup - CELESTE */
         .btn-info {
             background: #00BCD4;
             color: white;
@@ -242,7 +246,6 @@
             background: #0097A7;
         }
 
-        /* Botón Recuperar - AMARILLO */
         .btn-secondary {
             background: #FFC107;
             color: #333;
@@ -278,7 +281,7 @@
             padding: 10px 8px;
         }
 
-        .acciones-botones .btn i {
+        .acciones-botones .btn .icono {
             font-size: 20px;
         }
 
@@ -403,7 +406,7 @@
             padding-bottom: 4px;
         }
 
-        /* ===== ARTÍCULOS - SIN ICONO DE DRAG ===== */
+        /* ===== ARTÍCULOS ===== */
         .item {
             display: flex;
             align-items: center;
@@ -439,7 +442,6 @@
             transform: scale(1.02);
         }
 
-        /* Checkbox - AZUL */
         .item .checkbox {
             width: 20px;
             height: 20px;
@@ -531,7 +533,7 @@
             font-size: 18px;
         }
 
-        /* ===== MODAL DE EDICIÓN - MODIFICADO ===== */
+        /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -540,12 +542,10 @@
             height: 100%;
             background: rgba(0,0,0,0.5);
             display: none;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             z-index: 1000;
             padding: 20px;
-            /* Centrado más arriba */
-            align-items: flex-start;
             padding-top: 10vh;
         }
 
@@ -605,7 +605,6 @@
             border-color: #2196F3;
         }
 
-        /* Campo cantidad más pequeño en alto y ancho */
         .modal .form-group input#modalCant {
             max-width: 120px;
             text-align: center;
@@ -614,19 +613,18 @@
             min-height: 48px;
         }
 
-        /* Campo nombre de 3 renglones - ALTO AUMENTADO 1/5 (20%) */
         .modal .form-group textarea {
             width: 100%;
             padding: 14px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 26px; /* Tamaño de fuente aumentado */
+            font-size: 26px;
             transition: border-color 0.3s;
             background: white;
             color: #333;
             font-family: inherit;
             resize: none;
-            min-height: 84px; /* Aumentado de 70px a 84px (20% más) */
+            min-height: 84px;
             line-height: 1.5;
         }
 
@@ -704,7 +702,7 @@
             height: 100%;
         }
 
-        .mensaje-vacio i {
+        .mensaje-vacio .icono {
             font-size: 48px;
             display: block;
             margin-bottom: 12px;
@@ -734,7 +732,7 @@
                 padding: 6px 12px;
             }
 
-            .btn-header-share i {
+            .btn-header-share .icono {
                 font-size: 14px;
             }
             
@@ -758,7 +756,7 @@
                 min-width: 40px;
             }
 
-            .acciones-botones .btn i {
+            .acciones-botones .btn .icono {
                 font-size: 16px;
             }
 
@@ -842,9 +840,9 @@
             }
 
             .modal .form-group textarea {
-                font-size: 22px; /* Aumentado en responsive */
+                font-size: 22px;
                 padding: 12px;
-                min-height: 72px; /* Aumentado de 60px */
+                min-height: 72px;
             }
 
             .modal .form-group label {
@@ -868,7 +866,7 @@
                 padding: 6px 4px;
             }
 
-            .acciones-botones .btn i {
+            .acciones-botones .btn .icono {
                 font-size: 14px;
             }
 
@@ -904,9 +902,9 @@
             }
 
             .modal .form-group textarea {
-                font-size: 20px; /* Aumentado en responsive */
+                font-size: 20px;
                 padding: 10px;
-                min-height: 66px; /* Aumentado de 55px */
+                min-height: 66px;
             }
 
             .btn-header-share {
@@ -1069,15 +1067,15 @@
         <div class="header-fijo">
             <div class="header">
                 <h1 id="tituloPrincipal">
-                    <i class="fas fa-truck"></i>
+                    <span class="icono-header">🚚</span>
                     <span style="color:#2196F3;">Proveedores</span>
                 </h1>
                 <div class="header-actions">
                     <button class="btn-header-share" id="btnCompartirHeader">
-                        <i class="fas fa-share-alt"></i> Compartir
+                        <span class="icono">📋</span> Compartir
                     </button>
                     <button class="btn-back" id="btnBack">
-                        <i class="fas fa-arrow-left"></i>
+                        <span>↩️</span>
                     </button>
                 </div>
             </div>
@@ -1086,7 +1084,7 @@
             <div class="form-group" id="formulario">
                 <input type="text" id="inputNombre" placeholder="Nombre del proveedor" />
                 <button class="btn btn-primary" id="btnGuardar">
-                    <i class="fas fa-save"></i> Guardar
+                    Agregar
                 </button>
             </div>
 
@@ -1098,15 +1096,15 @@
             <!-- ===== CONTROL DE TAMAÑO DE LETRA ===== -->
             <div class="control-tamano" id="controlTamano">
                 <label>
-                    <i class="fas fa-font"></i>
+                    <span>🔤</span>
                     <span id="tamanoLabel">100%</span>
                 </label>
                 <button class="btn-tamano" id="btnTamanoMenos" title="Reducir tamaño">
-                    <i class="fas fa-minus"></i>
+                    <span>➖</span>
                 </button>
                 <input type="range" id="tamanoSlider" min="70" max="150" value="100" step="5">
                 <button class="btn-tamano" id="btnTamanoMas" title="Aumentar tamaño">
-                    <i class="fas fa-plus"></i>
+                    <span>➕</span>
                 </button>
                 <span class="tamano-valor" id="tamanoValor">100%</span>
             </div>
@@ -1114,26 +1112,26 @@
             <!-- ===== BOTONES DE ACCIÓN ===== -->
             <div class="acciones-botones" id="accionesBotones">
                 <button class="btn btn-info" id="btnSeleccionadosArriba">
-                    <i class="fas fa-arrow-up"></i> Sel 1°
+                    <span class="icono">⬆️</span> Sel 1°
                 </button>
                 <button class="btn btn-warning" id="btnOrdenarAlfabetico">
-                    <i class="fas fa-sort-alpha-down"></i>
+                    Ordenar
                 </button>
                 <button class="btn btn-danger" id="btnLimpiar">
-                    <i class="fas fa-check-double"></i> Limpiar
+                    Limpiar
                 </button>
                 <button class="btn btn-agregar" id="btnAgregarAcciones">
-                    <i class="fas fa-plus"></i> Agregar
+                    Agregar
                 </button>
             </div>
 
             <!-- ===== BOTONES DE BACKUP (SOLO EN PROVEEDORES) ===== -->
             <div class="backup-botones" id="backupBotones">
                 <button class="btn btn-info" id="btnBackupGuardar">
-                    <i class="fas fa-download"></i> Backup
+                    <span class="icono">📥</span> Backup
                 </button>
                 <button class="btn btn-secondary" id="btnBackupRecuperar">
-                    <i class="fas fa-upload"></i> Recuperar
+                    <span class="icono">📤</span> Recuperar
                 </button>
             </div>
         </div>
@@ -1142,7 +1140,7 @@
         <div class="lista-scroll" id="listaScroll">
             <div id="itemsList" class="items-list">
                 <div class="mensaje-vacio">
-                    <i class="fas fa-inbox"></i>
+                    <span class="icono">📭</span>
                     No hay elementos aún
                 </div>
             </div>
@@ -1437,7 +1435,7 @@
                 this.dragItem = null;
                 this.vista = 'proveedores';
                 this.tamanoLetra = 100;
-                this.modalModo = 'agregar'; // 'agregar' o 'editar'
+                this.modalModo = 'agregar';
 
                 // Elementos DOM
                 this.itemsList = document.getElementById('itemsList');
@@ -1449,7 +1447,6 @@
                 this.formularioArticulos = document.getElementById('formularioArticulos');
                 this.inputNombre = document.getElementById('inputNombre');
                 this.btnGuardar = document.getElementById('btnGuardar');
-                this.btnCompartir = document.getElementById('btnCompartir');
                 this.btnSeleccionadosArriba = document.getElementById('btnSeleccionadosArriba');
                 this.btnOrdenarAlfabetico = document.getElementById('btnOrdenarAlfabetico');
                 this.btnLimpiar = document.getElementById('btnLimpiar');
@@ -1482,19 +1479,14 @@
                     this.actualizarTamano();
                 }
 
-                // Inicializar manejo de teclado
                 setTimeout(handleKeyboard, 100);
 
                 this.init();
-
-                // ===== CONTROL DEL BOTÓN ATRÁS DE ANDROID =====
                 this.setupBackButton();
             }
 
-            // ===== CONFIGURAR BOTÓN ATRÁS =====
             setupBackButton() {
                 window.addEventListener('popstate', (e) => {
-                    // Si el modal está abierto, cerrarlo sin guardar
                     if (this.modalOverlay.classList.contains('active')) {
                         e.preventDefault();
                         this.cerrarModal();
@@ -1511,16 +1503,14 @@
                 history.pushState({ vista: 'proveedores' }, '');
             }
 
-            // ===== LIMPIAR CAMPOS =====
             limpiarCampos() {
                 this.inputNombre.value = '';
             }
 
-            // ===== VISTAS =====
             mostrarVistaArticulos(proveedor) {
                 this.vista = 'articulos';
                 this.proveedorActual = proveedor;
-                this.titulo.innerHTML = `<i class="fas fa-box"></i> <span style="color:#2196F3;">${proveedor.nombre}</span>`;
+                this.titulo.innerHTML = `<span class="icono-header">📦</span> <span style="color:#2196F3;">${proveedor.nombre}</span>`;
                 this.btnBack.classList.add('visible');
                 this.btnCompartirHeader.classList.add('visible');
                 this.formulario.classList.add('hidden');
@@ -1541,7 +1531,7 @@
 
             mostrarVistaProveedores() {
                 this.vista = 'proveedores';
-                this.titulo.innerHTML = `<i class="fas fa-truck"></i> <span style="color:#2196F3;">Proveedores</span>`;
+                this.titulo.innerHTML = `<span class="icono-header">🚚</span> <span style="color:#2196F3;">Proveedores</span>`;
                 this.btnBack.classList.remove('visible');
                 this.btnCompartirHeader.classList.remove('visible');
                 this.formulario.classList.remove('hidden');
@@ -1575,7 +1565,6 @@
                 this.articulos.sort((a, b) => (a.orden || 0) - (b.orden || 0));
             }
 
-            // ===== CONTROL DE TAMAÑO =====
             actualizarTamano() {
                 const factor = this.tamanoLetra / 100;
                 const items = document.querySelectorAll('.item .nombre, .item .cant');
@@ -1614,7 +1603,7 @@
                 if (this.proveedores.length === 0) {
                     this.itemsList.innerHTML = `
                         <div class="mensaje-vacio">
-                            <i class="fas fa-truck"></i>
+                            <span class="icono">🚚</span>
                             No hay proveedores aún
                         </div>
                     `;
@@ -1629,10 +1618,10 @@
                             <div class="nombre">${nombreSeguro}</div>
                             <div class="acciones">
                                 <button class="btn btn-warning btn-sm btn-editar-proveedor" data-id="${prov.id}">
-                                    <i class="fas fa-edit"></i>
+                                    ✏️
                                 </button>
                                 <button class="btn btn-danger btn-sm btn-eliminar-proveedor" data-id="${prov.id}">
-                                    <i class="fas fa-trash"></i>
+                                    🗑️
                                 </button>
                             </div>
                         </div>
@@ -1648,7 +1637,7 @@
                 if (this.articulos.length === 0) {
                     this.itemsList.innerHTML = `
                         <div class="mensaje-vacio">
-                            <i class="fas fa-box"></i>
+                            <span class="icono">📦</span>
                             No hay artículos para este proveedor
                         </div>
                     `;
@@ -1667,7 +1656,7 @@
                             </div>
                             <div class="acciones">
                                 <button class="btn btn-danger btn-sm btn-eliminar-articulo" data-id="${item.id}">
-                                    <i class="fas fa-trash"></i>
+                                    🗑️
                                 </button>
                             </div>
                         </div>
@@ -1679,7 +1668,6 @@
                 this.actualizarTamano();
             }
 
-            // ===== SETUP EVENTOS =====
             setupProveedorEvents() {
                 document.querySelectorAll('.btn-editar-proveedor').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -1742,7 +1730,6 @@
                 });
             }
 
-            // ===== CRUD PROVEEDORES =====
             async guardarProveedor() {
                 const nombre = this.inputNombre.value.trim();
 
@@ -1759,7 +1746,7 @@
                         this.mostrarToast('Proveedor modificado ✅');
                     }
                     this.editingId = null;
-                    this.btnGuardar.innerHTML = '<i class="fas fa-save"></i> Guardar';
+                    this.btnGuardar.textContent = 'Agregar';
                 } else {
                     const maxOrden = this.proveedores.reduce((max, p) => Math.max(max, p.orden || 0), 0);
                     const newProv = {
@@ -1784,7 +1771,7 @@
 
                 this.inputNombre.value = prov.nombre;
                 this.editingId = id;
-                this.btnGuardar.innerHTML = '<i class="fas fa-pen"></i> Modificar';
+                this.btnGuardar.textContent = '✏️ Modificar';
                 this.inputNombre.focus();
                 this.inputNombre.scrollIntoView({ behavior: 'smooth' });
             }
@@ -1802,10 +1789,8 @@
                 this.mostrarToast('Proveedor eliminado 🗑️');
             }
 
-            // ===== CRUD ARTÍCULOS =====
             async guardarArticuloDesdeModal() {
                 const nombre = this.modalNombre.value.trim();
-                // Permitir cantidad vacía, se guarda como 0
                 let cant = 0;
                 if (this.modalCant.value !== '' && !isNaN(parseInt(this.modalCant.value))) {
                     cant = parseInt(this.modalCant.value);
@@ -1870,7 +1855,6 @@
                 }
             }
 
-            // ===== MODAL =====
             abrirModalAgregar() {
                 this.modalModo = 'agregar';
                 this.modalTitulo.textContent = 'Agregar Artículo';
@@ -1899,7 +1883,6 @@
                 this.modalCant.value = '';
                 this.modalNombre.value = '';
                 this.editingId = null;
-                // Restaurar el foco al botón que abrió el modal
                 setTimeout(() => {
                     if (this.vista === 'articulos') {
                         document.activeElement?.blur();
@@ -1907,7 +1890,6 @@
                 }, 100);
             }
 
-            // ===== ORDENAR SELECCIONADOS ARRIBA =====
             async ordenarSeleccionadosArriba() {
                 const seleccionados = this.articulos.filter(a => a.sel);
                 if (seleccionados.length === 0) {
@@ -1931,7 +1913,6 @@
                 this.mostrarToast(`${seleccionados.length} artículos movidos arriba ✅`);
             }
 
-            // ===== ORDENAR ALFABÉTICAMENTE (TODOS LOS ARTÍCULOS) =====
             async ordenarAlfabetico() {
                 this.articulos.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 
@@ -1948,7 +1929,6 @@
                 this.mostrarToast('Orden alfabético aplicado ✅');
             }
 
-            // ===== COMPARTIR =====
             async compartirSeleccionados() {
                 const seleccionados = this.articulos.filter(a => a.sel);
                 
@@ -1980,7 +1960,6 @@
                 }
             }
 
-            // ===== LIMPIAR SELECCIÓN CON CONFIRMACIÓN =====
             async limpiarSeleccion() {
                 const seleccionados = this.articulos.filter(a => a.sel);
                 if (seleccionados.length === 0) {
@@ -2001,7 +1980,6 @@
                 this.mostrarToast('Selección limpiada ✅');
             }
 
-            // ===== BACKUP =====
             async hacerBackup() {
                 try {
                     const data = await this.db.exportarDatos();
@@ -2064,7 +2042,6 @@
                 input.click();
             }
 
-            // ===== DRAG & DROP =====
             onDragStart(e) {
                 const item = e.currentTarget;
                 this.dragItem = {
@@ -2149,7 +2126,6 @@
                 this.dragItem = null;
             }
 
-            // ===== UTILIDADES =====
             escapeHtml(text) {
                 const div = document.createElement('div');
                 div.textContent = text;
@@ -2185,10 +2161,8 @@
                 }, 3000);
             }
 
-            // ===== EVENT LISTENERS =====
             setupEventListeners() {
                 this.btnBack.addEventListener('click', () => {
-                    // Si el modal está abierto, cerrarlo sin guardar
                     if (this.modalOverlay.classList.contains('active')) {
                         this.cerrarModal();
                         return;
@@ -2214,7 +2188,6 @@
                 this.btnBackupGuardar.addEventListener('click', () => this.hacerBackup());
                 this.btnBackupRecuperar.addEventListener('click', () => this.recuperarBackup());
 
-                // Control de tamaño
                 this.tamanoSlider.addEventListener('input', (e) => {
                     this.cambiarTamano(parseInt(e.target.value));
                 });
@@ -2227,7 +2200,6 @@
                     this.cambiarTamano(this.tamanoLetra + 5);
                 });
 
-                // Modal
                 this.modalGuardar.addEventListener('click', () => this.guardarArticuloDesdeModal());
                 this.modalCancelar.addEventListener('click', () => this.cerrarModal());
                 this.modalOverlay.addEventListener('click', (e) => {
@@ -2236,7 +2208,6 @@
                     }
                 });
 
-                // Enter en modal
                 this.modalNombre.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
@@ -2252,12 +2223,11 @@
             }
         }
 
-        // ========== INICIAR ==========
         document.addEventListener('DOMContentLoaded', () => {
             if (!window.indexedDB) {
                 document.body.innerHTML = `
                     <div style="text-align:center;padding:50px;color:#f44336;">
-                        <i class="fas fa-exclamation-triangle" style="font-size:48px;"></i>
+                        <span style="font-size:48px;">⚠️</span>
                         <h2>Tu navegador no soporta IndexedDB</h2>
                         <p>Usa un navegador moderno como Chrome, Firefox o Edge</p>
                     </div>
