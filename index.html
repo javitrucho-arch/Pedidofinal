@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    
     <title>Mi App - Proveedores</title>
     
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -501,7 +500,6 @@
             font-size: 18px;
         }
 
-        /* ===== MODAL DE CONFIRMACIÓN PERSONALIZADO ===== */
         .confirm-overlay {
             position: fixed;
             top: 0;
@@ -603,7 +601,6 @@
             background: #d32f2f;
         }
 
-        /* ===== MODAL DE EDICIÓN ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1317,7 +1314,6 @@
                 mensajeEl.textContent = mensaje;
                 iconoEl.textContent = icono;
 
-                // Cambiar color del botón según tipo
                 if (tipo === 'peligro') {
                     btnAceptar.className = 'btn btn-confirm-danger';
                 } else {
@@ -1345,7 +1341,6 @@
                 btnAceptar.addEventListener('click', onAceptar);
                 btnCancelar.addEventListener('click', onCancelar);
 
-                // Cerrar al hacer clic fuera del modal
                 overlay.addEventListener('click', (e) => {
                     if (e.target === overlay) {
                         limpiar();
@@ -1664,22 +1659,48 @@
                 this.setupBackButton();
             }
 
+            // ===== SETUP BACK BUTTON CON CANCELACIÓN DE EDICIÓN =====
             setupBackButton() {
                 window.addEventListener('popstate', (e) => {
+                    // Si el modal de artículos está abierto, cerrarlo
                     if (this.modalOverlay.classList.contains('active')) {
                         e.preventDefault();
                         this.cerrarModal();
                         return;
                     }
                     
+                    // Si estábamos editando un proveedor, cancelar
+                    if (this.editingId !== null && this.vista === 'proveedores') {
+                        e.preventDefault();
+                        this.cancelarEdicionProveedor();
+                        return;
+                    }
+                    
+                    // Si estamos en la vista de artículos, volver a proveedores
                     if (this.vista === 'articulos') {
                         e.preventDefault();
                         this.mostrarVistaProveedores();
                         history.pushState({ vista: 'proveedores' }, '');
+                        return;
+                    }
+                    
+                    // Si estamos en proveedores y no hay edición, no hacer nada
+                    if (this.vista === 'proveedores') {
+                        e.preventDefault();
                     }
                 });
 
                 history.pushState({ vista: 'proveedores' }, '');
+            }
+
+            // ===== CANCELAR EDICIÓN DE PROVEEDOR =====
+            cancelarEdicionProveedor() {
+                this.editingId = null;
+                this.btnGuardar.textContent = 'Agregar';
+                this.inputNombre.value = '';
+                this.inputNombre.placeholder = 'Nombre del proveedor';
+                this.mostrarToast('Edición cancelada', 'info');
+                this.inputNombre.blur();
             }
 
             limpiarCampos() {
@@ -1687,6 +1708,11 @@
             }
 
             mostrarVistaArticulos(proveedor) {
+                // Si estábamos editando un proveedor, cancelar
+                if (this.editingId !== null) {
+                    this.cancelarEdicionProveedor();
+                }
+                
                 this.vista = 'articulos';
                 this.proveedorActual = proveedor;
                 this.titulo.innerHTML = `<span class="icono-header">📦</span> <span style="color:#2196F3;">${proveedor.nombre}</span>`;
@@ -1709,6 +1735,11 @@
             }
 
             mostrarVistaProveedores() {
+                // Si estábamos editando, cancelar la edición
+                if (this.editingId !== null) {
+                    this.cancelarEdicionProveedor();
+                }
+                
                 this.vista = 'proveedores';
                 this.titulo.innerHTML = `<span class="icono-header">🚚</span> <span style="color:#2196F3;">Proveedores</span>`;
                 this.btnBack.classList.remove('visible');
@@ -2006,6 +2037,8 @@
                 this.btnGuardar.textContent = '✏️ Modificar';
                 this.inputNombre.focus();
                 this.inputNombre.scrollIntoView({ behavior: 'smooth' });
+                
+                history.pushState({ vista: 'proveedores', editando: true }, '');
             }
 
             async eliminarProveedor(id) {
@@ -2397,6 +2430,10 @@
                         this.cerrarModal();
                         return;
                     }
+                    if (this.editingId !== null && this.vista === 'proveedores') {
+                        this.cancelarEdicionProveedor();
+                        return;
+                    }
                     this.mostrarVistaProveedores();
                 });
 
@@ -2448,6 +2485,19 @@
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         this.modalNombre.focus();
+                    }
+                });
+
+                // ===== NUEVO: Tecla ESC para cancelar edición =====
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        if (this.modalOverlay.classList.contains('active')) {
+                            this.cerrarModal();
+                            return;
+                        }
+                        if (this.editingId !== null && this.vista === 'proveedores') {
+                            this.cancelarEdicionProveedor();
+                        }
                     }
                 });
             }
