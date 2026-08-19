@@ -381,7 +381,7 @@
             flex: 1;
             overflow-y: auto;
             padding-right: 4px;
-            padding-bottom: 8px;
+            padding-bottom: 4px;
             min-height: 0;
             -webkit-overflow-scrolling: touch;
         }
@@ -403,7 +403,7 @@
         /* ===== LISTA ===== */
         .items-list {
             margin-top: 0;
-            padding-bottom: 4px;
+            padding-bottom: 2px;
         }
 
         /* ===== ARTÍCULOS ===== */
@@ -411,15 +411,16 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 12px;
+            padding: 8px 12px;
             background: #f8f9fa;
             border-radius: 8px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
             border: 2px solid transparent;
             position: relative;
+            -webkit-touch-callout: none;
         }
 
         .item:hover {
@@ -546,7 +547,7 @@
             justify-content: center;
             z-index: 1000;
             padding: 20px;
-            padding-top: 10vh;
+            padding-top: 8vh;
         }
 
         .modal-overlay.active {
@@ -556,7 +557,7 @@
         .modal {
             background: white;
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px 24px 16px 24px;
             width: 100%;
             max-width: 450px;
             max-height: 90vh;
@@ -578,23 +579,23 @@
 
         .modal h2 {
             color: #2196F3;
-            font-size: 28px;
-            margin-bottom: 16px;
+            font-size: 26px;
+            margin-bottom: 12px;
             text-align: center;
         }
 
         .modal .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             flex-direction: column;
         }
 
         .modal .form-group input {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 22px;
+            font-size: 20px;
             transition: border-color 0.3s;
             background: white;
             color: #333;
@@ -608,24 +609,24 @@
         .modal .form-group input#modalCant {
             max-width: 120px;
             text-align: center;
-            padding: 10px 14px;
-            font-size: 22px;
-            min-height: 48px;
+            padding: 8px 14px;
+            font-size: 20px;
+            min-height: 42px;
         }
 
         .modal .form-group textarea {
             width: 100%;
-            padding: 14px;
+            padding: 10px 14px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 26px;
+            font-size: 24px;
             transition: border-color 0.3s;
             background: white;
             color: #333;
             font-family: inherit;
             resize: none;
-            min-height: 84px;
-            line-height: 1.5;
+            min-height: 42px;
+            line-height: 1.4;
         }
 
         .modal .form-group textarea:focus {
@@ -635,7 +636,7 @@
 
         .modal .form-group label {
             font-weight: 600;
-            font-size: 20px;
+            font-size: 18px;
             color: #666;
             display: block;
             margin-bottom: 4px;
@@ -644,14 +645,14 @@
         .modal-actions {
             display: flex;
             gap: 10px;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .modal-actions .btn {
             flex: 1;
             justify-content: center;
-            font-size: 22px;
-            padding: 14px;
+            font-size: 18px;
+            padding: 10px 14px;
         }
 
         .btn-cancel {
@@ -777,8 +778,9 @@
             }
 
             .item {
-                padding: 8px 10px;
-                gap: 8px;
+                padding: 6px 8px;
+                gap: 6px;
+                margin-bottom: 3px;
             }
 
             .item .cant {
@@ -815,34 +817,35 @@
             }
 
             .lista-scroll {
-                padding-bottom: 4px;
+                padding-bottom: 2px;
             }
 
             .modal {
-                padding: 16px;
+                padding: 16px 16px 12px 16px;
                 max-width: 95%;
             }
 
             .modal h2 {
-                font-size: 22px;
+                font-size: 20px;
+                margin-bottom: 10px;
             }
 
             .modal .form-group input {
                 font-size: 18px;
-                padding: 12px;
+                padding: 10px;
             }
 
             .modal .form-group input#modalCant {
                 max-width: 90px;
-                padding: 8px 12px;
+                padding: 6px 12px;
                 font-size: 18px;
-                min-height: 42px;
+                min-height: 38px;
             }
 
             .modal .form-group textarea {
-                font-size: 22px;
-                padding: 12px;
-                min-height: 72px;
+                font-size: 20px;
+                padding: 8px 12px;
+                min-height: 36px;
             }
 
             .modal .form-group label {
@@ -850,8 +853,8 @@
             }
 
             .modal-actions .btn {
-                font-size: 18px;
-                padding: 12px;
+                font-size: 16px;
+                padding: 8px 12px;
             }
         }
 
@@ -898,13 +901,13 @@
                 max-width: 80px;
                 padding: 6px 10px;
                 font-size: 16px;
-                min-height: 38px;
+                min-height: 34px;
             }
 
             .modal .form-group textarea {
-                font-size: 20px;
-                padding: 10px;
-                min-height: 66px;
+                font-size: 18px;
+                padding: 6px 10px;
+                min-height: 32px;
             }
 
             .btn-header-share {
@@ -917,7 +920,7 @@
             }
 
             .modal h2 {
-                font-size: 20px;
+                font-size: 18px;
             }
         }
 
@@ -1153,11 +1156,11 @@
             <h2 id="modalTitulo">Agregar Artículo</h2>
             <div class="form-group">
                 <label>Cantidad (opcional)</label>
-                <input type="number" id="modalCant" placeholder="0" min="0" />
+                <input type="text" id="modalCant" placeholder="0" inputmode="numeric" />
             </div>
             <div class="form-group">
                 <label>Nombre</label>
-                <textarea id="modalNombre" placeholder="Ingrese el nombre" rows="3"></textarea>
+                <textarea id="modalNombre" placeholder="Ingrese el nombre" rows="1"></textarea>
             </div>
             <div class="modal-actions">
                 <button class="btn btn-cancel" id="modalCancelar">Cancelar</button>
@@ -1713,6 +1716,38 @@
                     });
                 });
 
+                document.querySelectorAll('.item').forEach(el => {
+                    // Copiar nombre al presionar prolongadamente (touch)
+                    el.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        const nombre = el.querySelector('.nombre')?.textContent || '';
+                        if (nombre) {
+                            this.copiarAlPortapapeles(nombre);
+                            this.mostrarToast('📋 Nombre copiado: ' + nombre);
+                        }
+                    });
+
+                    // Para móviles: press and hold (long press)
+                    let longPressTimer = null;
+                    el.addEventListener('touchstart', (e) => {
+                        longPressTimer = setTimeout(() => {
+                            const nombre = el.querySelector('.nombre')?.textContent || '';
+                            if (nombre) {
+                                // Prevenir que se active el click normal
+                                e.preventDefault();
+                                this.copiarAlPortapapeles(nombre);
+                                this.mostrarToast('📋 Nombre copiado: ' + nombre);
+                            }
+                        }, 600);
+                    });
+                    el.addEventListener('touchmove', () => {
+                        clearTimeout(longPressTimer);
+                    });
+                    el.addEventListener('touchend', () => {
+                        clearTimeout(longPressTimer);
+                    });
+                });
+
                 document.querySelectorAll('.btn-eliminar-articulo').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -1792,8 +1827,8 @@
             async guardarArticuloDesdeModal() {
                 const nombre = this.modalNombre.value.trim();
                 let cant = 0;
-                if (this.modalCant.value !== '' && !isNaN(parseInt(this.modalCant.value))) {
-                    cant = parseInt(this.modalCant.value);
+                if (this.modalCant.value !== '' && !isNaN(parseFloat(this.modalCant.value))) {
+                    cant = parseFloat(this.modalCant.value);
                     if (cant < 0) cant = 0;
                 }
 
@@ -1802,11 +1837,17 @@
                     return;
                 }
 
+                // Formatear cantidad: si es entero, mostrar sin decimales
+                let cantStr = cant;
+                if (Number.isInteger(cant)) {
+                    cantStr = cant;
+                }
+
                 if (this.modalModo === 'editar' && this.editingId) {
                     const item = this.articulos.find(a => a.id === this.editingId);
                     if (item) {
                         item.nombre = nombre;
-                        item.cant = cant;
+                        item.cant = cantStr;
                         await this.db.updateArticulo(item);
                         this.mostrarToast('Artículo modificado ✅');
                     }
@@ -1815,7 +1856,7 @@
                     const newItem = {
                         proveedorId: this.proveedorActual.id,
                         nombre: nombre,
-                        cant: cant,
+                        cant: cantStr,
                         sel: false,
                         orden: 0
                     };
@@ -1939,7 +1980,7 @@
 
                 let texto = '';
                 seleccionados.forEach((item) => {
-                    texto += `${item.cant} ${item.nombre}\n`;
+                    texto += `${item.cant}   ${item.nombre}\n`;
                 });
 
                 if (navigator.share) {
@@ -2135,7 +2176,7 @@
             copiarAlPortapapeles(texto) {
                 navigator.clipboard.writeText(texto)
                     .then(() => {
-                        this.mostrarToast('📋 Copiado al portapapeles');
+                        // Ya se muestra toast desde el llamador
                     })
                     .catch(() => {
                         const textarea = document.createElement('textarea');
@@ -2144,7 +2185,6 @@
                         textarea.select();
                         document.execCommand('copy');
                         document.body.removeChild(textarea);
-                        this.mostrarToast('📋 Copiado al portapapeles');
                     });
             }
 
