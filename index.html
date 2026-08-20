@@ -380,6 +380,85 @@
             padding-bottom: 2px;
         }
 
+        /* ===== PROVEEDORES - DRAG & DROP ===== */
+        .proveedor-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            cursor: grab;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        .proveedor-item:hover {
+            background: #e3f2fd;
+            border-color: #2196F3;
+        }
+
+        .proveedor-item:active {
+            cursor: grabbing;
+        }
+
+        .proveedor-item.dragging {
+            opacity: 0.4;
+            transform: scale(0.95);
+            border-color: #2196F3;
+            background: #e3f2fd;
+        }
+
+        .proveedor-item.drag-over {
+            border-color: #2196F3;
+            background: #e3f2fd;
+            transform: scale(1.02);
+            border-style: dashed;
+        }
+
+        .proveedor-item .handle {
+            font-size: 20px;
+            color: #999;
+            cursor: grab;
+            flex-shrink: 0;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .proveedor-item .handle:hover {
+            color: #2196F3;
+        }
+
+        .proveedor-item .handle:active {
+            cursor: grabbing;
+        }
+
+        .proveedor-item .nombre {
+            flex: 1;
+            font-weight: 600;
+            font-size: 18px;
+            word-break: break-word;
+            transition: font-size 0.2s;
+            pointer-events: none;
+        }
+
+        .proveedor-item .acciones {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .proveedor-item .acciones .btn {
+            padding: 4px 10px;
+            font-size: 18px;
+            pointer-events: auto;
+        }
+
+        /* ===== ARTÍCULOS ===== */
         .item {
             display: flex;
             align-items: center;
@@ -462,44 +541,7 @@
             font-size: 18px;
         }
 
-        .proveedor-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .proveedor-item:hover {
-            background: #e3f2fd;
-            border-color: #2196F3;
-            transform: scale(1.02);
-        }
-
-        .proveedor-item .nombre {
-            flex: 1;
-            font-weight: 600;
-            font-size: 18px;
-            word-break: break-word;
-            transition: font-size 0.2s;
-        }
-
-        .proveedor-item .acciones {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
-        .proveedor-item .acciones .btn {
-            padding: 4px 10px;
-            font-size: 18px;
-        }
-
+        /* ===== CONFIRMACIÓN ===== */
         .confirm-overlay {
             position: fixed;
             top: 0;
@@ -601,6 +643,7 @@
             background: #d32f2f;
         }
 
+        /* ===== MODAL DE EDICIÓN ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -843,6 +886,19 @@
                 max-height: 70vh;
             }
 
+            .proveedor-item {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+
+            .proveedor-item .handle {
+                font-size: 16px;
+            }
+
+            .proveedor-item .nombre {
+                font-size: 16px;
+            }
+
             .item {
                 padding: 8px 10px;
                 gap: 8px;
@@ -867,15 +923,6 @@
             .item .acciones .btn {
                 font-size: 16px;
                 padding: 2px 8px;
-            }
-
-            .proveedor-item .nombre {
-                font-size: 16px;
-            }
-
-            .proveedor-item {
-                padding: 10px 12px;
-                margin-bottom: 4px;
             }
 
             .backup-botones .btn {
@@ -952,6 +999,18 @@
             .backup-botones .btn {
                 font-size: 14px;
                 padding: 6px 8px;
+            }
+
+            .proveedor-item {
+                padding: 8px 10px;
+            }
+
+            .proveedor-item .handle {
+                font-size: 14px;
+            }
+
+            .proveedor-item .nombre {
+                font-size: 14px;
             }
 
             .item .nombre {
@@ -1033,10 +1092,29 @@
                 background: #2d2d2d;
                 border-bottom-color: #444;
             }
-            .item, .proveedor-item {
+            .proveedor-item {
                 background: #3d3d3d;
             }
-            .item:hover, .proveedor-item:hover {
+            .proveedor-item:hover {
+                background: #4d4d4d;
+            }
+            .proveedor-item.dragging {
+                background: #4d4d4d;
+            }
+            .proveedor-item.drag-over {
+                background: #4d4d4d;
+                border-color: #64B5F6;
+            }
+            .proveedor-item .handle {
+                color: #777;
+            }
+            .proveedor-item .handle:hover {
+                color: #64B5F6;
+            }
+            .item {
+                background: #3d3d3d;
+            }
+            .item:hover {
                 background: #4d4d4d;
             }
             .form-group input {
@@ -1424,14 +1502,14 @@
         // ========== BASE DE DATOS ==========
         class Database {
             constructor() {
-                this.dbName = 'MiAppDB_v4';
+                this.dbName = 'MiAppDB_v5';
                 this.db = null;
                 this.init();
             }
 
             init() {
                 return new Promise((resolve, reject) => {
-                    const request = indexedDB.open(this.dbName, 4);
+                    const request = indexedDB.open(this.dbName, 5);
                     
                     request.onupgradeneeded = (e) => {
                         const db = e.target.result;
@@ -1442,6 +1520,13 @@
                                 autoIncrement: true 
                             });
                             store.createIndex('nombre', 'nombre', { unique: false });
+                            store.createIndex('orden', 'orden', { unique: false });
+                        } else {
+                            // Asegurar que el índice 'orden' existe
+                            const store = e.target.transaction.objectStore('proveedores');
+                            if (!store.indexNames.contains('orden')) {
+                                store.createIndex('orden', 'orden', { unique: false });
+                            }
                         }
                         
                         if (!db.objectStoreNames.contains('articulos')) {
@@ -1470,7 +1555,8 @@
                 return new Promise((resolve, reject) => {
                     const transaction = this.db.transaction(['proveedores'], 'readonly');
                     const store = transaction.objectStore('proveedores');
-                    const request = store.getAll();
+                    const index = store.index('orden');
+                    const request = index.getAll();
                     request.onsuccess = () => resolve(request.result);
                     request.onerror = () => reject(request.error);
                 });
@@ -1610,6 +1696,7 @@
                 this.proveedorActual = null;
                 this.editingId = null;
                 this.dragItem = null;
+                this.dragProveedor = null;
                 this.vista = 'proveedores';
                 this.tamanoLetra = 100;
                 this.modalModo = 'agregar';
@@ -1659,24 +1746,20 @@
                 this.setupBackButton();
             }
 
-            // ===== SETUP BACK BUTTON CON CANCELACIÓN DE EDICIÓN =====
             setupBackButton() {
                 window.addEventListener('popstate', (e) => {
-                    // Si el modal de artículos está abierto, cerrarlo
                     if (this.modalOverlay.classList.contains('active')) {
                         e.preventDefault();
                         this.cerrarModal();
                         return;
                     }
                     
-                    // Si estábamos editando un proveedor, cancelar
                     if (this.editingId !== null && this.vista === 'proveedores') {
                         e.preventDefault();
                         this.cancelarEdicionProveedor();
                         return;
                     }
                     
-                    // Si estamos en la vista de artículos, volver a proveedores
                     if (this.vista === 'articulos') {
                         e.preventDefault();
                         this.mostrarVistaProveedores();
@@ -1684,7 +1767,6 @@
                         return;
                     }
                     
-                    // Si estamos en proveedores y no hay edición, no hacer nada
                     if (this.vista === 'proveedores') {
                         e.preventDefault();
                     }
@@ -1693,7 +1775,6 @@
                 history.pushState({ vista: 'proveedores' }, '');
             }
 
-            // ===== CANCELAR EDICIÓN DE PROVEEDOR =====
             cancelarEdicionProveedor() {
                 this.editingId = null;
                 this.btnGuardar.textContent = 'Agregar';
@@ -1708,7 +1789,6 @@
             }
 
             mostrarVistaArticulos(proveedor) {
-                // Si estábamos editando un proveedor, cancelar
                 if (this.editingId !== null) {
                     this.cancelarEdicionProveedor();
                 }
@@ -1735,7 +1815,6 @@
             }
 
             mostrarVistaProveedores() {
-                // Si estábamos editando, cancelar la edición
                 if (this.editingId !== null) {
                     this.cancelarEdicionProveedor();
                 }
@@ -1767,7 +1846,7 @@
 
             async cargarProveedores() {
                 this.proveedores = await this.db.getProveedores();
-                this.proveedores.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+                // Ya vienen ordenados por el índice 'orden'
             }
 
             async cargarArticulos(proveedorId) {
@@ -1824,7 +1903,8 @@
                 this.proveedores.forEach((prov, index) => {
                     const nombreSeguro = this.escapeHtml(prov.nombre);
                     html += `
-                        <div class="proveedor-item" data-id="${prov.id}" data-index="${index}">
+                        <div class="proveedor-item" data-id="${prov.id}" data-index="${index}" draggable="true">
+                            <span class="handle">⠿</span>
                             <div class="nombre">${nombreSeguro}</div>
                             <div class="acciones">
                                 <button class="btn btn-warning btn-sm btn-editar-proveedor" data-id="${prov.id}">
@@ -1840,6 +1920,7 @@
 
                 this.itemsList.innerHTML = html;
                 this.setupProveedorEvents();
+                this.setupProveedorDragDrop();
                 this.actualizarTamano();
             }
 
@@ -1878,6 +1959,220 @@
                 this.actualizarTamano();
             }
 
+            // ===== DRAG & DROP PARA PROVEEDORES =====
+            setupProveedorDragDrop() {
+                const items = document.querySelectorAll('.proveedor-item');
+                
+                items.forEach(item => {
+                    // Eventos para mouse
+                    item.addEventListener('dragstart', (e) => this.onProveedorDragStart(e));
+                    item.addEventListener('dragend', (e) => this.onProveedorDragEnd(e));
+                    item.addEventListener('dragover', (e) => this.onProveedorDragOver(e));
+                    item.addEventListener('dragleave', (e) => this.onProveedorDragLeave(e));
+                    item.addEventListener('drop', (e) => this.onProveedorDrop(e));
+
+                    // Eventos para táctil (touch)
+                    const handle = item.querySelector('.handle');
+                    if (handle) {
+                        handle.addEventListener('touchstart', (e) => {
+                            e.preventDefault();
+                            this.onProveedorTouchStart(e, item);
+                        }, { passive: false });
+                    }
+                });
+
+                // Prevenir el comportamiento por defecto del drag en toda la página
+                document.addEventListener('dragover', (e) => e.preventDefault());
+                document.addEventListener('drop', (e) => e.preventDefault());
+            }
+
+            onProveedorTouchStart(e, item) {
+                const touch = e.touches[0];
+                const touchStartX = touch.clientX;
+                const touchStartY = touch.clientY;
+                let isDragging = false;
+                
+                const onTouchMove = (ev) => {
+                    const touchMove = ev.touches[0];
+                    const deltaX = Math.abs(touchMove.clientX - touchStartX);
+                    const deltaY = Math.abs(touchMove.clientY - touchStartY);
+                    
+                    if (deltaX > 10 || deltaY > 10) {
+                        isDragging = true;
+                        ev.preventDefault();
+                        this.onProveedorTouchDrag(ev, item);
+                    }
+                };
+                
+                const onTouchEnd = (ev) => {
+                    document.removeEventListener('touchmove', onTouchMove);
+                    document.removeEventListener('touchend', onTouchEnd);
+                    
+                    if (isDragging) {
+                        this.onProveedorTouchEnd(ev, item);
+                    }
+                };
+                
+                document.addEventListener('touchmove', onTouchMove, { passive: false });
+                document.addEventListener('touchend', onTouchEnd);
+                
+                // Si no se mueve después de 200ms, es un click
+                setTimeout(() => {
+                    if (!isDragging) {
+                        document.removeEventListener('touchmove', onTouchMove);
+                        document.removeEventListener('touchend', onTouchEnd);
+                    }
+                }, 200);
+            }
+
+            onProveedorTouchDrag(e, item) {
+                const touch = e.touches[0];
+                const allItems = document.querySelectorAll('.proveedor-item');
+                let targetItem = null;
+                
+                allItems.forEach(el => {
+                    if (el !== item) {
+                        const rect = el.getBoundingClientRect();
+                        if (touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                            targetItem = el;
+                        }
+                    }
+                });
+                
+                // Limpiar estilos de todos
+                allItems.forEach(el => {
+                    el.classList.remove('drag-over');
+                });
+                
+                if (targetItem) {
+                    targetItem.classList.add('drag-over');
+                }
+                
+                // Mover el elemento visualmente (feedback)
+                const scrollContainer = this.listaScroll;
+                const scrollRect = scrollContainer.getBoundingClientRect();
+                
+                // Auto-scroll
+                if (touch.clientY < scrollRect.top + 50) {
+                    scrollContainer.scrollTop -= 15;
+                } else if (touch.clientY > scrollRect.bottom - 50) {
+                    scrollContainer.scrollTop += 15;
+                }
+            }
+
+            onProveedorTouchEnd(e, item) {
+                const allItems = document.querySelectorAll('.proveedor-item');
+                let targetItem = null;
+                let targetIndex = -1;
+                
+                // Buscar el elemento sobre el que se soltó
+                allItems.forEach(el => {
+                    if (el.classList.contains('drag-over')) {
+                        targetItem = el;
+                        el.classList.remove('drag-over');
+                    }
+                });
+                
+                if (!targetItem || targetItem === item) {
+                    return;
+                }
+                
+                const fromIndex = parseInt(item.dataset.index);
+                const toIndex = parseInt(targetItem.dataset.index);
+                
+                if (fromIndex === toIndex) return;
+                
+                this.reordenarProveedores(fromIndex, toIndex);
+            }
+
+            onProveedorDragStart(e) {
+                const item = e.currentTarget;
+                this.dragProveedor = {
+                    element: item,
+                    id: parseInt(item.dataset.id),
+                    index: parseInt(item.dataset.index)
+                };
+                item.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', item.dataset.id);
+                item.style.opacity = '0.4';
+            }
+
+            onProveedorDragEnd(e) {
+                const item = e.currentTarget;
+                item.classList.remove('dragging');
+                item.style.opacity = '1';
+                document.querySelectorAll('.proveedor-item').forEach(el => {
+                    el.classList.remove('drag-over');
+                    el.style.borderColor = 'transparent';
+                });
+                this.dragProveedor = null;
+            }
+
+            onProveedorDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                const target = e.currentTarget;
+                if (target !== this.dragProveedor?.element) {
+                    target.classList.add('drag-over');
+                    target.style.borderColor = '#2196F3';
+                    target.style.borderStyle = 'dashed';
+                }
+            }
+
+            onProveedorDragLeave(e) {
+                const target = e.currentTarget;
+                target.classList.remove('drag-over');
+                target.style.borderColor = 'transparent';
+            }
+
+            onProveedorDrop(e) {
+                e.preventDefault();
+                const target = e.currentTarget;
+                target.classList.remove('drag-over');
+                target.style.borderColor = 'transparent';
+
+                if (!this.dragProveedor || target === this.dragProveedor.element) {
+                    this.dragProveedor = null;
+                    return;
+                }
+
+                const fromIndex = this.dragProveedor.index;
+                const toIndex = parseInt(target.dataset.index);
+
+                if (fromIndex === toIndex) {
+                    this.dragProveedor = null;
+                    return;
+                }
+
+                this.reordenarProveedores(fromIndex, toIndex);
+                this.dragProveedor = null;
+            }
+
+            async reordenarProveedores(fromIndex, toIndex) {
+                try {
+                    const [movedItem] = this.proveedores.splice(fromIndex, 1);
+                    this.proveedores.splice(toIndex, 0, movedItem);
+
+                    this.proveedores.forEach((item, index) => {
+                        item.orden = index;
+                    });
+
+                    for (const item of this.proveedores) {
+                        await this.db.updateProveedor(item);
+                    }
+
+                    await this.cargarProveedores();
+                    this.renderizarProveedores();
+                    this.mostrarToast('Orden actualizado 🔄');
+                } catch (error) {
+                    console.error('Error al reordenar:', error);
+                    this.mostrarToast('Error al reordenar', 'warning');
+                    await this.cargarProveedores();
+                    this.renderizarProveedores();
+                }
+            }
+
             setupProveedorEvents() {
                 document.querySelectorAll('.btn-editar-proveedor').forEach(btn => {
                     btn.addEventListener('click', (e) => {
@@ -1908,7 +2203,9 @@
                 });
 
                 document.querySelectorAll('.proveedor-item').forEach(el => {
-                    el.addEventListener('click', () => {
+                    el.addEventListener('click', (e) => {
+                        // No hacer nada si se hizo clic en un botón o en el handle de arrastre
+                        if (e.target.closest('.btn') || e.target.closest('.handle')) return;
                         const id = parseInt(el.dataset.id);
                         const prov = this.proveedores.find(p => p.id === id);
                         if (prov) this.mostrarVistaArticulos(prov);
@@ -2011,7 +2308,7 @@
                     this.editingId = null;
                     this.btnGuardar.textContent = 'Agregar';
                 } else {
-                    const maxOrden = this.proveedores.reduce((max, p) => Math.max(max, p.orden || 0), 0);
+                    const maxOrden = this.proveedores.reduce((max, p) => Math.max(max, p.orden || 0), -1);
                     const newProv = {
                         nombre: nombre,
                         orden: maxOrden + 1
@@ -2069,23 +2366,18 @@
                     }
                     this.editingId = null;
                 } else {
+                    const maxOrden = this.articulos.reduce((max, item) => Math.max(max, item.orden || 0), -1);
                     const newItem = {
                         proveedorId: this.proveedorActual.id,
                         nombre: nombre,
                         cant: cant,
                         sel: false,
-                        orden: 0
+                        orden: maxOrden + 1
                     };
                     const id = await this.db.addArticulo(newItem);
                     newItem.id = id;
-                    this.articulos.unshift(newItem);
+                    this.articulos.push(newItem);
                     
-                    this.articulos.forEach((item, index) => {
-                        item.orden = index;
-                    });
-                    for (const item of this.articulos) {
-                        await this.db.updateArticulo(item);
-                    }
                     this.mostrarToast('Artículo agregado ✅');
                 }
 
@@ -2169,6 +2461,22 @@
             }
 
             async ordenarAlfabetico() {
+                // Para proveedores (si estamos en vista de proveedores)
+                if (this.vista === 'proveedores') {
+                    this.proveedores.sort((a, b) => a.nombre.localeCompare(b.nombre));
+                    this.proveedores.forEach((item, index) => {
+                        item.orden = index;
+                    });
+                    for (const item of this.proveedores) {
+                        await this.db.updateProveedor(item);
+                    }
+                    await this.cargarProveedores();
+                    this.renderizarProveedores();
+                    this.mostrarToast('Proveedores ordenados alfabéticamente ✅');
+                    return;
+                }
+                
+                // Para artículos
                 this.articulos.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 
                 this.articulos.forEach((item, index) => {
@@ -2308,6 +2616,7 @@
                 input.click();
             }
 
+            // ===== DRAG & DROP PARA ARTÍCULOS =====
             onDragStart(e) {
                 const item = e.currentTarget;
                 this.dragItem = {
@@ -2488,7 +2797,6 @@
                     }
                 });
 
-                // ===== NUEVO: Tecla ESC para cancelar edición =====
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         if (this.modalOverlay.classList.contains('active')) {
