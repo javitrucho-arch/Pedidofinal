@@ -359,6 +359,7 @@
             min-height: 0;
             max-height: 70vh;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         .lista-scroll::-webkit-scrollbar {
@@ -388,22 +389,17 @@
             background: #f8f9fa;
             border-radius: 8px;
             margin-bottom: 4px;
-            cursor: grab;
+            cursor: default;
             transition: all 0.2s;
             border: 2px solid transparent;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: none;
             position: relative;
         }
 
         .proveedor-item:hover {
             background: #e3f2fd;
             border-color: #2196F3;
-        }
-
-        .proveedor-item:active {
-            cursor: grabbing;
         }
 
         .proveedor-item.dragging {
@@ -426,7 +422,7 @@
             color: #999;
             cursor: grab;
             flex-shrink: 0;
-            padding: 6px 4px;
+            padding: 8px 4px;
             transition: color 0.2s;
             touch-action: none;
         }
@@ -814,7 +810,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 480px) {
             body {
                 padding: 8px;
@@ -894,7 +889,7 @@
 
             .proveedor-item .handle {
                 font-size: 16px;
-                padding: 4px 3px;
+                padding: 6px 3px;
             }
 
             .proveedor-item .nombre {
@@ -1907,7 +1902,7 @@
                 this.proveedores.forEach((prov, index) => {
                     const nombreSeguro = this.escapeHtml(prov.nombre);
                     html += `
-                        <div class="proveedor-item" data-id="${prov.id}" data-index="${index}" draggable="true">
+                        <div class="proveedor-item" data-id="${prov.id}" data-index="${index}">
                             <span class="handle">⠿</span>
                             <div class="nombre">${nombreSeguro}</div>
                             <div class="acciones">
@@ -1963,56 +1958,27 @@
                 this.actualizarTamano();
             }
 
-            // ===== DRAG & DROP PARA PROVEEDORES (CORREGIDO PARA TÁCTIL) =====
+            // ===== DRAG & DROP PARA PROVEEDORES (CORREGIDO - SOLO EN HANDLE) =====
             setupProveedorDragDrop() {
                 const items = document.querySelectorAll('.proveedor-item');
                 
                 items.forEach(item => {
-                    // Eventos para mouse
+                    // Eventos para mouse (drag & drop nativo)
                     item.addEventListener('dragstart', (e) => this.onProveedorDragStart(e));
                     item.addEventListener('dragend', (e) => this.onProveedorDragEnd(e));
                     item.addEventListener('dragover', (e) => this.onProveedorDragOver(e));
                     item.addEventListener('dragleave', (e) => this.onProveedorDragLeave(e));
                     item.addEventListener('drop', (e) => this.onProveedorDrop(e));
 
-                    // Eventos para táctil - AHORA FUNCIONA CORRECTAMENTE
+                    // ===== TÁCTIL: SOLO EN EL HANDLE =====
                     const handle = item.querySelector('.handle');
                     if (handle) {
-                        // Touch events en el handle
+                        // Touch events solo en el handle
                         handle.addEventListener('touchstart', (e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             this.startTouchDrag(e, item);
                         }, { passive: false });
-                        
-                        // También en el item completo para mejor usabilidad
-                        item.addEventListener('touchstart', (e) => {
-                            // Si el toque no fue en un botón o checkbox
-                            if (!e.target.closest('.btn') && !e.target.closest('.checkbox')) {
-                                // No prevenir default aquí para permitir scroll
-                                // Solo iniciamos el drag si es un toque largo
-                                this.pendingTouchDrag = {
-                                    item: item,
-                                    timer: setTimeout(() => {
-                                        e.preventDefault();
-                                        this.startTouchDrag(e, item);
-                                    }, 400)
-                                };
-                            }
-                        }, { passive: true });
-                        
-                        item.addEventListener('touchmove', () => {
-                            if (this.pendingTouchDrag) {
-                                clearTimeout(this.pendingTouchDrag.timer);
-                                this.pendingTouchDrag = null;
-                            }
-                        }, { passive: true });
-                        
-                        item.addEventListener('touchend', () => {
-                            if (this.pendingTouchDrag) {
-                                clearTimeout(this.pendingTouchDrag.timer);
-                                this.pendingTouchDrag = null;
-                            }
-                        }, { passive: true });
                     }
                 });
 
@@ -2024,7 +1990,6 @@
                 const touch = e.touches ? e.touches[0] : e;
                 const touchStartY = touch.clientY;
                 
-                // Clonar el elemento para feedback visual
                 const originalIndex = parseInt(item.dataset.index);
                 
                 this.touchDragData = {
@@ -2049,7 +2014,6 @@
                 clone.id = 'dragClone';
                 document.body.appendChild(clone);
                 
-                // Ocultar el original
                 item.style.opacity = '0.3';
                 
                 const onTouchMove = (ev) => {
@@ -2066,14 +2030,12 @@
                     // Buscar el elemento destino
                     const allItems = document.querySelectorAll('.proveedor-item');
                     let targetItem = null;
-                    let targetIndex = -1;
                     
                     allItems.forEach(el => {
                         if (el !== item) {
                             const rect = el.getBoundingClientRect();
                             if (currentY >= rect.top && currentY <= rect.bottom) {
                                 targetItem = el;
-                                targetIndex = parseInt(el.dataset.index);
                             }
                         }
                     });
